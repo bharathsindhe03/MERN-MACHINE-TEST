@@ -13,9 +13,10 @@ const PORT = 5000;
 const JWT_SECRET = process.env.JWT_SECRET;
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI, {})
+mongoose
+  .connect(process.env.MONGO_URI, {})
   .then(() => console.log('MongoDB Connected'))
-  .catch(err => console.error('Error connecting to MongoDB:', err));
+  .catch((err) => console.error('Error connecting to MongoDB:', err));
 
 // Middleware
 app.use(cors());
@@ -96,12 +97,11 @@ app.post('/login', async (req, res) => {
 });
 
 // Employee Schema and Model
-
 const EmployeeSchema = new mongoose.Schema({
-  eid: { type: Number, unique: true, required: true }, 
+  eid: { type: Number, unique: true, required: true },
   name: String,
-  email: {type:String,unique: true},
-  mobile: {type:String,unique: true},
+  email: { type: String, unique: true },
+  mobile: { type: String, unique: true },
   designation: String,
   gender: String,
   course: [String],
@@ -117,11 +117,11 @@ app.post('/createEmployee', upload.single('image'), async (req, res) => {
   if (!name || !email || !mobile || !designation || !gender || !course || !req.file) {
     return res.status(400).json({ message: 'All fields are required!' });
   }
-  
+
   try {
     // Get the count of employees to generate the next unique employee ID (eid)
-    const employeeCount = await Employee.countDocuments();  // Count existing employees
-    const newEmployeeId = employeeCount + 1;  // Generate the next ID
+    const employeeCount = await Employee.countDocuments(); // Count existing employees
+    const newEmployeeId = employeeCount + 1; // Generate the next ID
 
     const newEmployee = new Employee({
       eid: newEmployeeId,
@@ -133,7 +133,7 @@ app.post('/createEmployee', upload.single('image'), async (req, res) => {
       course: Array.isArray(course) ? course : [course],
       image: `/uploads/${req.file.filename}`,
     });
-    
+
     await newEmployee.save();
     res.status(201).json({ message: 'Employee created successfully!', employee: newEmployee });
   } catch (error) {
@@ -150,6 +150,21 @@ app.get('/employees', async (req, res) => {
   } catch (error) {
     console.error('Error fetching employees:', error);
     res.status(500).json({ message: 'An error occurred while fetching employees.' });
+  }
+});
+
+// Delete Employee Route
+app.delete('/employees/:id', async (req, res) => {
+  try {
+    const result = await Employee.deleteOne({ eid: req.params.id });
+    if (result.deletedCount === 1) {
+      res.status(200).send({ message: 'Employee deleted successfully' });
+    } else {
+      res.status(404).send({ message: 'Employee not found' });
+    }
+  } catch (error) {
+    console.error('Error deleting employee:', error);
+    res.status(500).send({ message: 'Error deleting employee', error });
   }
 });
 

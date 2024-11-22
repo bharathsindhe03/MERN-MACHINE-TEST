@@ -19,6 +19,26 @@ const Employee = () => {
     fetchEmployees();
   }, []);
 
+  // Function to delete an employee
+  const deleteEmployee = async (id) => {
+    try {
+      const response = await fetch(`http://localhost:5000/employees/${id}`, {
+        method: 'DELETE',
+      });
+
+      if (response.ok) {
+        setEmployees((prevEmployees) =>
+          prevEmployees.filter((employee) => employee.eid !== id)
+        );
+        alert('Employee deleted successfully');
+      } else {
+        console.error('Failed to delete employee');
+      }
+    } catch (error) {
+      console.error('Error deleting employee:', error);
+    }
+  };
+
   return (
     <>
       <Navbar />
@@ -64,7 +84,20 @@ const Employee = () => {
                   <td>{employee.gender}</td>
                   <td>{employee.course.join(', ')}</td>
                   <td>{new Date(employee.time).toLocaleDateString()}</td>
-                  <td>Edit - Delete</td>
+                  <td>
+                    <button
+                      onClick={() => deleteEmployee(employee.eid)}
+                      style={{
+                        backgroundColor: 'red',
+                        color: 'white',
+                        border: 'none',
+                        padding: '5px 10px',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      Delete
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
