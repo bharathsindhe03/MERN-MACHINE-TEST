@@ -31,24 +31,22 @@ const Employee = () => {
           <table border="1">
             <thead>
               <tr>
+                <th>Id</th>
+                <th>Image</th>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Mobile</th>
                 <th>Designation</th>
                 <th>Gender</th>
                 <th>Course</th>
-                <th>Image</th>
+                <th>Create Date</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
               {employees.map((employee, index) => (
                 <tr key={index}>
-                  <td>{employee.name}</td>
-                  <td>{employee.email}</td>
-                  <td>{employee.mobile}</td>
-                  <td>{employee.designation}</td>
-                  <td>{employee.gender}</td>
-                  <td>{employee.course.join(', ')}</td>
+                  <td>{employee.eid}</td>
                   <td>
                     {employee.image && (
                       <img
@@ -59,6 +57,14 @@ const Employee = () => {
                       />
                     )}
                   </td>
+                  <td>{employee.name}</td>
+                  <td>{employee.email}</td>
+                  <td>{employee.mobile}</td>
+                  <td>{employee.designation}</td>
+                  <td>{employee.gender}</td>
+                  <td>{employee.course.join(', ')}</td>
+                  <td>{new Date(employee.time).toLocaleDateString()}</td>
+                  <td>Edit - Delete</td>
                 </tr>
               ))}
             </tbody>

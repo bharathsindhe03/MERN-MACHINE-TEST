@@ -96,14 +96,17 @@ app.post('/login', async (req, res) => {
 });
 
 // Employee Schema and Model
+
 const EmployeeSchema = new mongoose.Schema({
+  eid: { type: Number, unique: true, required: true }, 
   name: String,
-  email: String,
-  mobile: String,
+  email: {type:String,unique: true},
+  mobile: {type:String,unique: true},
   designation: String,
   gender: String,
   course: [String],
   image: String, // Store the file path
+  time: { type: Date, default: Date.now },
 });
 const Employee = mongoose.model('Employee', EmployeeSchema);
 
@@ -114,9 +117,14 @@ app.post('/createEmployee', upload.single('image'), async (req, res) => {
   if (!name || !email || !mobile || !designation || !gender || !course || !req.file) {
     return res.status(400).json({ message: 'All fields are required!' });
   }
-
+  
   try {
+    // Get the count of employees to generate the next unique employee ID (eid)
+    const employeeCount = await Employee.countDocuments();  // Count existing employees
+    const newEmployeeId = employeeCount + 1;  // Generate the next ID
+
     const newEmployee = new Employee({
+      eid: newEmployeeId,
       name,
       email,
       mobile,
@@ -125,7 +133,7 @@ app.post('/createEmployee', upload.single('image'), async (req, res) => {
       course: Array.isArray(course) ? course : [course],
       image: `/uploads/${req.file.filename}`,
     });
-
+    
     await newEmployee.save();
     res.status(201).json({ message: 'Employee created successfully!', employee: newEmployee });
   } catch (error) {
