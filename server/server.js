@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const path = require('path');
+const connectDB = require('./db/config');
 require('dotenv').config();
 
 const authRoutes = require('./routes/authRoutes');
@@ -10,11 +11,7 @@ const employeeRoutes = require('./routes/employeeRoutes');
 const app = express();
 const PORT = 5000;
 
-// Connect to MongoDB
-mongoose
-  .connect(process.env.MONGO_URI, {})
-  .then(() => console.log('MongoDB Connected'))
-  .catch((err) => console.error('MongoDB Connection Error:', err));
+connectDB();
 
 // Middleware
 app.use(cors());

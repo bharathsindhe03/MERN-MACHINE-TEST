@@ -89,6 +89,15 @@ Ensure you have the following installed:
 
 ---
 
+## 📊 Workflow Diagram  
+
+Below is the workflow diagram representing the architecture of this MERN stack application:  
+
+![Workflow Diagram](./client/src/assets/diagram.png)  
+
+---
+
+
 ## 🧪 Testing  
 
 To run tests (if implemented):  

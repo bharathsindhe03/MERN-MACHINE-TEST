@@ -1,15 +1,7 @@
 const express = require('express');
-const multer = require('multer');
+const {upload} = require('../middleware/multer');
 const Employee = require('../models/Employee');
-
 const router = express.Router();
-
-// Multer configuration
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, 'uploads/'),
-  filename: (req, file, cb) => cb(null, Date.now() + '-' + file.originalname),
-});
-const upload = multer({ storage });
 
 // Create Employee
 router.post('/create', upload.single('image'), async (req, res) => {
