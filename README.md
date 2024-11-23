@@ -97,23 +97,6 @@ Below is the workflow diagram representing the architecture of this MERN stack a
 
 ---
 
-
-## 🧪 Testing  
-
-To run tests (if implemented):  
-
-```bash
-# Backend tests
-cd server
-npm test
-
-# Frontend tests
-cd ../client
-npm test
-```
-
----
-
 ## 🤝 Contribution  
 
 Contributions are welcome! Please follow these steps:  
