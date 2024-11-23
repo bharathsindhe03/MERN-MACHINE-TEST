@@ -1,71 +1,123 @@
+/* General Styles */
 body {
   font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 h2 {
   text-align: center;
-  margin-top: 20px;
+  margin: 20px 0;
+  color: #333;
 }
 
 a {
   text-decoration: none;
   color: #007bff;
   margin-right: 10px;
+  font-weight: bold;
 }
 
 a:hover {
   text-decoration: underline;
 }
 
-table {
+/* Search Input */
+.searchInput {
+  display: block;
+  margin: 10px auto 20px;
+  padding: 10px;
+  width: 80%; /* Adjusted for a better look */
+  max-width: 500px; /* Prevents stretching too much on larger screens */
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+/* Table Styles */
+.table {
   width: 100%;
   border-collapse: collapse;
-  margin: 20px 0;
+  margin: 20px auto;
+  max-width: 1200px; /* Limit the width for better readability */
 }
 
-th, td {
+.th, .td {
   border: 1px solid #ddd;
-  padding: 8px;
+  padding: 10px;
   text-align: left;
-  white-space: nowrap; 
+  white-space: nowrap;
 }
 
-th {
-  background-color: #f2f2f2;
+.th {
+  background-color: #f8f9fa;
   font-weight: bold;
+  text-align: center;
 }
 
-td img {
+.td {
+  vertical-align: middle; /* Align content in the middle */
+  text-align: center; /* Center text for better aesthetics */
+}
+
+.td img {
   display: block;
   margin: auto;
+  border-radius: 50%; /* Rounded images */
 }
 
-tr:nth-child(even) {
+/* Alternating Row Colors */
+.tr:nth-child(even) {
   background-color: #f9f9f9;
 }
 
-tr:hover {
+.tr:hover {
   background-color: #f1f1f1;
 }
 
-button {
-  background-color: #8aa989;
+/* Buttons */
+.button {
+  background-color: #007bff;
   color: white;
   border: none;
-  padding: 5px 10px;
+  padding: 6px 12px;
+  border-radius: 4px;
   cursor: pointer;
   font-size: 14px;
+  text-align: center;
+  margin: 0 5px;
+  transition: background-color 0.3s ease;
 }
 
-button:hover {
+.button:hover {
   background-color: #0056b3;
 }
 
-input[type="text"] {
-  margin: 10px 0;
-  padding: 10px;
-  width: calc(100% - 20px);
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  box-sizing: border-box;
+.button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .table {
+    width: 100%;
+    font-size: 14px; /* Reduce font size for smaller screens */
+  }
+
+  .searchInput {
+    width: calc(100% - 40px); /* Ensure proper spacing on small screens */
+  }
+
+  .button {
+    padding: 5px 10px; /* Adjust button padding for small screens */
+    font-size: 12px;
+  }
+
+  .td img {
+    width: 40px; /* Adjust image size for smaller screens */
+    height: 40px;
+  }
 }

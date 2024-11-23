@@ -1,35 +1,60 @@
 .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    background-color: #abf269;
-    color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #4caf50; /* Adjusted to a more consistent green */
+  color: white;
+  font-family: Arial, sans-serif; /* Set a default font for consistency */
+}
+
+.link {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 16px;
+  margin-right: 20px; /* Space out links if more are added */
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+.employee-name {
+  font-size: 16px;
+  font-weight: bold;
+  margin-right: 20px; /* Align with the layout */
+}
+
+.button {
+  width: 10rem;
+  padding: 8px 10px; /* Increased for better clickability */
+  background-color: #ff4b4b;
+  color: white;
+  border: none;
+  border-radius: 5px; /* Slightly rounder corners for better aesthetics */
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease; /* Smooth hover effect */
+}
+
+.button:hover {
+  background-color: #ff2222;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start; /* Align items to the start on smaller screens */
   }
-  
-  .navbar a {
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 16px;
+
+  .link, .employee-name, .button {
+    margin: 5px 0; /* Add spacing between elements */
   }
-  
-  .navbar .employee-name {
-    font-size: 16px;
-    font-weight: bold;
+
+  .button {
+    width: 100%; /* Make the button full-width for smaller screens */
+    text-align: center;
   }
-  
-  .navbar button {
-    padding: 5px 10px;
-    background-color: #ff4b4b;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-  }
-  
-  .navbar button:hover {
-    background-color: #ff2222;
-  }
-  
+}

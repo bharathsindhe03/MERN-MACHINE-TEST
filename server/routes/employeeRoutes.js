@@ -19,6 +19,18 @@ router.post('/create', upload.single('image'), async (req, res) => {
     return res.status(400).json({ message: 'All fields are required!' });
   }
 
+  if (!/^\d+$/.test(mobile)) {
+    return res.status(400).json({ message: "Mobile number must be numeric." });
+  }
+  if (!/\S+@\S+\.\S+/.test(email)) {
+    return res.status(400).json({ message: "Invalid email format." });
+  }
+  // Check for duplicate email
+  const existingEmployee = await Employee.findOne({ email });
+  if (existingEmployee) {
+    return res.status(400).json({ message: "Email already exists." });
+  }
+
   try {
     const employeeCount = await Employee.countDocuments();
     const newEmployeeId = employeeCount + 1;
@@ -69,6 +81,19 @@ router.get('/:id', async (req, res) => {
 // Update Employee
 router.put('/:id', upload.single('image'), async (req, res) => {
   try {
+    const { name, email, mobile, designation, gender, course } = req.body;
+    
+    if (!/^\d+$/.test(mobile)) {
+      return res.status(400).json({ message: "Mobile number must be numeric." });
+    }
+    if (!/\S+@\S+\.\S+/.test(email)) {
+      return res.status(400).json({ message: "Invalid email format." });
+    }
+    // Check for duplicate email
+    const existingEmployee = await Employee.findOne({ email });
+    if (existingEmployee) {
+      return res.status(400).json({ message: "Email already exists." });
+    }
     const updateData = {
       name: req.body.name,
       email: req.body.email,
