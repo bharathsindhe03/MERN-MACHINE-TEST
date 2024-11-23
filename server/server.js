@@ -1,216 +1,31 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const multer = require('multer');
-const bodyParser = require('body-parser');
 const cors = require('cors');
 const path = require('path');
 require('dotenv').config();
 
+const authRoutes = require('./routes/authRoutes');
+const employeeRoutes = require('./routes/employeeRoutes');
+
 const app = express();
 const PORT = 5000;
-const JWT_SECRET = process.env.JWT_SECRET;
 
 // Connect to MongoDB
 mongoose
   .connect(process.env.MONGO_URI, {})
   .then(() => console.log('MongoDB Connected'))
-  .catch((err) => console.error('Error connecting to MongoDB:', err));
+  .catch((err) => console.error('MongoDB Connection Error:', err));
 
 // Middleware
 app.use(cors());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Multer Configuration for File Uploads
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads/');
-  },
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-    cb(null, uniqueSuffix + '-' + file.originalname);
-  },
-});
-const upload = multer({ storage });
-
-// User Schema and Model
-const UserSchema = new mongoose.Schema({
-  name: String,
-  email: { type: String, unique: true },
-  password: String,
-});
-const User = mongoose.model('User', UserSchema);
-
-// Signup Route
-app.post('/signup', async (req, res) => {
-  const { name, email, password } = req.body;
-
-  if (!name || !email || !password) {
-    return res.status(400).json({ error: 'All fields are required' });
-  }
-
-  try {
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res.status(400).json({ error: 'Email already in use' });
-    }
-
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    const user = new User({ name, email, password: hashedPassword });
-    await user.save();
-    res.status(201).json({ message: 'User created successfully', userId: user._id });
-  } catch (error) {
-    console.error('Error during signup:', error);
-    res.status(500).json({ error: 'Something went wrong, please try again' });
-  }
-});
-
-// Login Route
-app.post('/login', async (req, res) => {
-  const { email, password } = req.body;
-
-  if (!email || !password) {
-    return res.status(400).json({ error: 'Email and password are required' });
-  }
-
-  try {
-    const user = await User.findOne({ email });
-    if (!user) {
-      return res.status(404).json({ error: 'User not found' });
-    }
-
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      return res.status(401).json({ error: 'Invalid credentials' });
-    }
-
-    const token = jwt.sign({ id: user._id, name: user.name }, JWT_SECRET, { expiresIn: '1h' });
-    res.status(200).json({ message: 'Login successful', token, userId: user._id });
-  } catch (error) {
-    console.error('Error during login:', error);
-    res.status(500).json({ error: 'Something went wrong, please try again' });
-  }
-});
-
-// Employee Schema and Model
-const EmployeeSchema = new mongoose.Schema({
-  eid: { type: Number, unique: true, required: true },
-  name: String,
-  email: { type: String, unique: true },
-  mobile: { type: String, unique: true },
-  designation: String,
-  gender: String,
-  course: [String],
-  image: String, // Store the file path
-  time: { type: Date, default: Date.now },
-});
-const Employee = mongoose.model('Employee', EmployeeSchema);
-
-// Create Employee Route
-app.post('/createEmployee', upload.single('image'), async (req, res) => {
-  const { name, email, mobile, designation, gender, course } = req.body;
-
-  if (!name || !email || !mobile || !designation || !gender || !course || !req.file) {
-    return res.status(400).json({ message: 'All fields are required!' });
-  }
-
-  try {
-    // Get the count of employees to generate the next unique employee ID (eid)
-    const employeeCount = await Employee.countDocuments(); // Count existing employees
-    const newEmployeeId = employeeCount + 1; // Generate the next ID
-
-    const newEmployee = new Employee({
-      eid: newEmployeeId,
-      name,
-      email,
-      mobile,
-      designation,
-      gender,
-      course: Array.isArray(course) ? course : [course],
-      image: `/uploads/${req.file.filename}`,
-    });
-
-    await newEmployee.save();
-    res.status(201).json({ message: 'Employee created successfully!', employee: newEmployee });
-  } catch (error) {
-    console.error('Error saving employee:', error);
-    res.status(500).json({ message: 'An error occurred while saving employee data.' });
-  }
-});
-
-// Get All Employees Route
-app.get('/employees', async (req, res) => {
-  try {
-    const employees = await Employee.find();
-    res.status(200).json(employees);
-  } catch (error) {
-    console.error('Error fetching employees:', error);
-    res.status(500).json({ message: 'An error occurred while fetching employees.' });
-  }
-});
-
-// Delete Employee Route
-app.delete('/employees/:id', async (req, res) => {
-  try {
-    const result = await Employee.deleteOne({ eid: req.params.id });
-    if (result.deletedCount === 1) {
-      res.status(200).send({ message: 'Employee deleted successfully' });
-    } else {
-      res.status(404).send({ message: 'Employee not found' });
-    }
-  } catch (error) {
-    console.error('Error deleting employee:', error);
-    res.status(500).send({ message: 'Error deleting employee', error });
-  }
-});
-// Get Employee by ID Route
-app.get('/employees/:id', async (req, res) => {
-  try {
-    const employee = await Employee.findOne({ eid: req.params.id }); // Find employee by eid
-    if (!employee) {
-      return res.status(404).json({ message: 'Employee not found' });
-    }
-    res.status(200).json(employee);
-  } catch (error) {
-    console.error('Error fetching employee:', error);
-    res.status(500).json({ message: 'An error occurred while fetching employee.' });
-  }
-});
-app.put('/employees/:id', upload.single('image'), async (req, res) => {
-  try {
-      const updateData = {
-      name: req.body.name,
-      email: req.body.email,
-      mobile: req.body.mobile,
-      designation: req.body.designation,
-      gender: req.body.gender,
-      course: req.body.course ? JSON.parse(req.body.course) : undefined,
-    };
-
-    if (req.file) {
-      updateData.image = `/uploads/${req.file.filename}`;
-    }
-
-    const employee = await Employee.findOneAndUpdate({ eid: parseInt(req.params.id, 10) }, updateData, {
-      new: true,
-    });
-
-    console.log('Updated Employee:', employee);
-
-    if (!employee) return res.status(404).json({ message: 'Employee not found' });
-
-    res.status(200).json({ message: 'Employee updated successfully!', employee });
-  } catch (error) {
-    console.error('Error updating employee:', error);
-    res.status(500).json({ error: 'Error updating employee' });
-  }
-});
+// Routes
+app.use('/auth', authRoutes);
+app.use('/employees', employeeRoutes);
 
 // Start Server
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`Server running at http://localhost:${PORT}`);
 });

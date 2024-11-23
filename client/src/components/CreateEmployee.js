@@ -50,7 +50,7 @@ const CreateEmployee = () => {
     formDataObj.append('image', formData.image);
 
     try {
-      const response = await fetch('http://localhost:5000/createEmployee', {
+      const response = await fetch('http://localhost:5000/employees/create', {
         method: 'POST',
         body: formDataObj,
       });
