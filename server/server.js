@@ -167,6 +167,48 @@ app.delete('/employees/:id', async (req, res) => {
     res.status(500).send({ message: 'Error deleting employee', error });
   }
 });
+// Get Employee by ID Route
+app.get('/employees/:id', async (req, res) => {
+  try {
+    const employee = await Employee.findOne({ eid: req.params.id }); // Find employee by eid
+    if (!employee) {
+      return res.status(404).json({ message: 'Employee not found' });
+    }
+    res.status(200).json(employee);
+  } catch (error) {
+    console.error('Error fetching employee:', error);
+    res.status(500).json({ message: 'An error occurred while fetching employee.' });
+  }
+});
+app.put('/employees/:id', upload.single('image'), async (req, res) => {
+  try {
+      const updateData = {
+      name: req.body.name,
+      email: req.body.email,
+      mobile: req.body.mobile,
+      designation: req.body.designation,
+      gender: req.body.gender,
+      course: req.body.course ? JSON.parse(req.body.course) : undefined,
+    };
+
+    if (req.file) {
+      updateData.image = `/uploads/${req.file.filename}`;
+    }
+
+    const employee = await Employee.findOneAndUpdate({ eid: parseInt(req.params.id, 10) }, updateData, {
+      new: true,
+    });
+
+    console.log('Updated Employee:', employee);
+
+    if (!employee) return res.status(404).json({ message: 'Employee not found' });
+
+    res.status(200).json({ message: 'Employee updated successfully!', employee });
+  } catch (error) {
+    console.error('Error updating employee:', error);
+    res.status(500).json({ error: 'Error updating employee' });
+  }
+});
 
 // Start Server
 app.listen(PORT, () => {

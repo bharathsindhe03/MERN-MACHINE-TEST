@@ -5,7 +5,7 @@ import Signup from './components/Signup';
 import Dashboard from './components/Dashboard';
 import Employees from './components/Employee';
 import CreateEmployee from './components/CreateEmpolyee';
-
+import EditEmployee from './components/EditEmployee'
 const App = () => {
   const PrivateRoute = ({ element, ...rest }) => {
     const token = localStorage.getItem('token');
@@ -25,8 +25,8 @@ const App = () => {
         <Route path="/signup" element={<Signup />} />
         <Route path="/dashboard" element={<PrivateRoute element={<Dashboard />} />} />
         <Route path="/employees" element={<PrivateRoute element={<Employees />} />} />
-        <Route path="/createEmployee" element={<CreateEmployee onCreate={handleCreateEmployee} />}
-        />
+        <Route path="/createEmployee" element={<CreateEmployee onCreate={handleCreateEmployee} />}/>
+        <Route path="/employees/edit/:id" element={<EditEmployee />} />
       </Routes>
     </Router>
   );

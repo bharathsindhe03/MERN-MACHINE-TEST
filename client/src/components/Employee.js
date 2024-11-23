@@ -85,18 +85,8 @@ const Employee = () => {
                   <td>{employee.course.join(', ')}</td>
                   <td>{new Date(employee.time).toLocaleDateString()}</td>
                   <td>
-                    <button
-                      onClick={() => deleteEmployee(employee.eid)}
-                      style={{
-                        backgroundColor: 'red',
-                        color: 'white',
-                        border: 'none',
-                        padding: '5px 10px',
-                        cursor: 'pointer',
-                      }}
-                    >
-                      Delete
-                    </button>
+                  <a href={`/employees/edit/${employee.eid}`}>Edit</a>
+                  <a onClick={() => deleteEmployee(employee.eid)}>Delete</a>
                   </td>
                 </tr>
               ))}
