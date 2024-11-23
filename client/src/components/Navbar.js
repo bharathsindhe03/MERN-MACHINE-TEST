@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import './Navbar.css';
+import styles from './Navbar.module.css'; // Import the CSS module
 
 const Navbar = ({ onLogout }) => {
   const [employeeName, setEmployeeName] = useState('');
@@ -24,19 +24,19 @@ const Navbar = ({ onLogout }) => {
   const handleLogout = () => {
     localStorage.removeItem('token'); // Clear the token
     onLogout(); // Optional callback for additional logout handling
-    setEmployeeName('');
+    setEmployeeName(''); // Clear employee name
     navigate('/login'); // Redirect to login
   };
 
   return (
-    <nav className="navbar">
+    <nav className={styles.navbar}>
       <div>
-        <Link to="/employees">Employee List</Link>
+        <Link to="/employees" className={styles.link}>Employee List</Link>
       </div>
-      <div className="employee-name">
+      <div className={styles['employee-name']}>
         <strong>{employeeName}</strong>
       </div>
-      <button onClick={handleLogout}>Logout</button>
+      <button onClick={handleLogout} className={styles.button}>Logout</button>
     </nav>
   );
 };

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import styles from './EditEmployee.module.css';
 
 const EditEmployee = () => {
   const { id } = useParams();
@@ -30,7 +31,7 @@ const EditEmployee = () => {
   }, [id]);
 
   const handleInputChange = (e) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value, checked } = e.target;
     if (name === 'course') {
       setEmployee((prev) => ({
         ...prev,
@@ -74,71 +75,80 @@ const EditEmployee = () => {
   if (error) return <p>Error: {error}</p>;
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>Name:</label>
-      <input type="text" name="name" value={employee.name || ''} onChange={handleInputChange} />
-      <br />
-      <label>Email:</label>
-      <input type="email" name="email" value={employee.email || ''} onChange={handleInputChange} />
-      <br />
-      <label>Mobile:</label>
-      <input type="text" name="mobile" value={employee.mobile || ''} onChange={handleInputChange} />
-      <br />
-      <label>Designation:</label>
-      <select name="designation" value={employee.designation || ''} onChange={handleInputChange}>
-        {designations.map((d) => (
-          <option key={d} value={d}>
-            {d}
-          </option>
-        ))}
-      </select>
-      <br />
-      <label>Gender:</label>
-      <input
-        type="radio"
-        name="gender"
-        value="Male"
-        checked={employee.gender === 'Male'}
-        onChange={handleInputChange}
-      />
-      Male
-      <br />
-      <input
-        type="radio"
-        name="gender"
-        value="Female"
-        checked={employee.gender === 'Female'}
-        onChange={handleInputChange}
-      />
-      Female
-      <br />
-      <label>Courses:</label>
-      {coursesList.map((course) => (
-        <label key={course}>
-          <input
-            type="checkbox"
-            name="course"
-            value={course}
-            checked={(employee.course || []).includes(course)}
-            onChange={handleInputChange}
-          />
-          {course}
-        </label>
-      ))}
-      <br />
-      <label>Current Image:</label>
-      {employee.image && (
-        <img
-          src={`http://localhost:5000${employee.image}`}
-          alt="Employee"
-          style={{ width: '100px', height: '100px' }}
+    <form onSubmit={handleSubmit} className={styles.form}>
+      <div className={styles['form-group']}>
+        <label>Name:</label>
+        <input type="text" name="name" value={employee.name || ''} onChange={handleInputChange} />
+      </div>
+      <div className={styles['form-group']}>
+        <label>Email:</label>
+        <input type="email" name="email" value={employee.email || ''} onChange={handleInputChange} />
+      </div>
+      <div className={styles['form-group']}>
+        <label>Mobile:</label>
+        <input type="text" name="mobile" value={employee.mobile || ''} onChange={handleInputChange} />
+      </div>
+      <div className={styles['form-group']}>
+        <label>Designation:</label>
+        <select name="designation" value={employee.designation || ''} onChange={handleInputChange}>
+          {designations.map((d) => (
+            <option key={d} value={d}>
+              {d}
+            </option>
+          ))}
+        </select>
+      </div>
+      <div className={styles['form-group']}>
+        <label>Gender:</label>
+        <input
+          type="radio"
+          name="gender"
+          value="Male"
+          checked={employee.gender === 'Male'}
+          onChange={handleInputChange}
         />
-      )}
-      <br />
-      <label>New Image:</label>
-      <input type="file" name="image" onChange={handleImageChange} />
-      <br />
-      <button type="submit">Update</button>
+        Male
+        <input
+          type="radio"
+          name="gender"
+          value="Female"
+          checked={employee.gender === 'Female'}
+          onChange={handleInputChange}
+        />
+        Female
+      </div>
+      <div className={styles['form-group']}>
+        <label>Courses:</label>
+        {coursesList.map((course) => (
+          <label key={course}>
+            <input
+              type="checkbox"
+              name="course"
+              value={course}
+              checked={(employee.course || []).includes(course)}
+              onChange={handleInputChange}
+            />
+            {course}
+          </label>
+        ))}
+      </div>
+      <div className={styles['form-group']}>
+        <label>Current Image:</label>
+        {employee.image && (
+          <img
+            src={`http://localhost:5000${employee.image}`}
+            alt="Employee"
+            style={{ width: '100px', height: '100px' }}
+          />
+        )}
+      </div>
+      <div className={styles['form-group']}>
+        <label>New Image:</label>
+        <input type="file" name="image" onChange={handleImageChange} />
+      </div>
+      <button type="submit" className={styles.button}>
+        Update
+      </button>
     </form>
   );
 };

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import styles from './CreateEmployee.module.css'; 
 
 const CreateEmployee = () => {
   const [formData, setFormData] = useState({
@@ -76,11 +77,11 @@ const CreateEmployee = () => {
   };
 
   return (
-    <div>
-      <h2>Create Employee</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="name">Name:</label>
+    <div className={styles.container}> {/* Use className for outer container */}
+      <h2 className={styles.header}>Create Employee</h2>
+      <form onSubmit={handleSubmit} className={styles.form}>
+        <div className={styles.formGroup}>
+          <label htmlFor="name" className={styles.label}>Name:</label>
           <input
             type="text"
             id="name"
@@ -88,12 +89,13 @@ const CreateEmployee = () => {
             placeholder="Name"
             value={formData.name}
             onChange={handleChange}
+            className={styles.input}
             required
           />
         </div>
 
-        <div>
-          <label htmlFor="email">Email:</label>
+        <div className={styles.formGroup}>
+          <label htmlFor="email" className={styles.label}>Email:</label>
           <input
             type="email"
             id="email"
@@ -101,12 +103,13 @@ const CreateEmployee = () => {
             placeholder="Email"
             value={formData.email}
             onChange={handleChange}
+            className={styles.input}
             required
           />
         </div>
 
-        <div>
-          <label htmlFor="mobile">Mobile No:</label>
+        <div className={styles.formGroup}>
+          <label htmlFor="mobile" className={styles.label}>Mobile No:</label>
           <input
             type="text"
             id="mobile"
@@ -114,17 +117,19 @@ const CreateEmployee = () => {
             placeholder="Mobile No"
             value={formData.mobile}
             onChange={handleChange}
+            className={styles.input}
             required
           />
         </div>
 
-        <div>
-          <label htmlFor="designation">Designation:</label>
+        <div className={styles.formGroup}>
+          <label htmlFor="designation" className={styles.label}>Designation:</label>
           <select
             id="designation"
             name="designation"
             value={formData.designation}
             onChange={handleChange}
+            className={styles.select}
             required
           >
             <option value="">Select Designation</option>
@@ -134,78 +139,84 @@ const CreateEmployee = () => {
           </select>
         </div>
 
-        <div>
-          <label>Gender:</label>
-          <label>
+        <div className={styles.formGroup}>
+          <label className={styles.label}>Gender:</label>
+          <label className={styles.radioLabel}>
             <input
               type="radio"
               name="gender"
               value="Male"
               checked={formData.gender === 'Male'}
               onChange={handleChange}
+              className={styles.radio}
               required
             />
             Male
           </label>
-          <label>
+          <label className={styles.radioLabel}>
             <input
               type="radio"
               name="gender"
               value="Female"
               checked={formData.gender === 'Female'}
               onChange={handleChange}
+              className={styles.radio}
             />
             Female
           </label>
         </div>
 
-        <div>
-          <label>Course:</label>
-          <label>
+        <div className={styles.formGroup}>
+          <label className={styles.label}>Course:</label>
+          <label className={styles.checkboxLabel}>
             <input
               type="checkbox"
               name="course"
               value="MCA"
               checked={formData.course.includes('MCA')}
               onChange={handleCheckboxChange}
+              className={styles.checkbox}
             />
             MCA
           </label>
-          <label>
+          <label className={styles.checkboxLabel}>
             <input
               type="checkbox"
               name="course"
               value="BCA"
               checked={formData.course.includes('BCA')}
               onChange={handleCheckboxChange}
+              className={styles.checkbox}
             />
             BCA
           </label>
-          <label>
+          <label className={styles.checkboxLabel}>
             <input
               type="checkbox"
               name="course"
               value="BSC"
               checked={formData.course.includes('BSC')}
               onChange={handleCheckboxChange}
+              className={styles.checkbox}
             />
             BSC
           </label>
         </div>
 
-        <div>
-          <label htmlFor="image">Upload Image:</label>
+        <div className={styles.formGroup}>
+          <label htmlFor="image" className={styles.label}>Upload Image:</label>
           <input
             type="file"
             id="image"
             name="image"
             accept="image/*"
             onChange={handleFileChange}
+            className={styles.fileInput}
             required
           />
         </div>
 
-        <button type="submit">Submit</button>
+        <button type="submit" className={styles.submitButton}>Submit</button>
       </form>
     </div>
   );
