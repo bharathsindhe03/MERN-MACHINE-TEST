@@ -81,11 +81,6 @@ router.put('/:id', upload.single('image'), async (req, res) => {
     if (!/\S+@\S+\.\S+/.test(email)) {
       return res.status(400).json({ message: "Invalid email format." });
     }
-    // Check for duplicate email
-    const existingEmployee = await Employee.findOne({ email });
-    if (existingEmployee) {
-      return res.status(400).json({ message: "Email already exists." });
-    }
     const updateData = {
       name: req.body.name,
       email: req.body.email,
