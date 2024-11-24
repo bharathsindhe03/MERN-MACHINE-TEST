@@ -108,7 +108,7 @@ const Employee = () => {
                   Id{' '}
                   <button onClick={() => sortEmployees('eid')} className={styles.button}>Sort</button>
                 </th>
-                <th>Image</th>
+                <th className={styles.th}>Image</th>
                 <th className={styles.th}>
                   Name{' '}
                   <button onClick={() => sortEmployees('name')} className={styles.button}>Sort</button>
@@ -117,15 +117,15 @@ const Employee = () => {
                   Email{' '}
                   <button onClick={() => sortEmployees('email')} className={styles.button}>Sort</button>
                 </th>
-                <th>Mobile</th>
-                <th>Designation</th>
-                <th>Gender</th>
-                <th>Course</th>
+                <th className={styles.th}>Mobile</th>
+                <th className={styles.th}>Designation</th>
+                <th className={styles.th}>Gender</th>
+                <th className={styles.th}>Course</th>
                 <th className={styles.th}>
                   Create Date{' '}
                   <button onClick={() => sortEmployees('time')} className={styles.button}>Sort</button>
                 </th>
-                <th>Action</th>
+                <th className={styles.th}>Action</th>
               </tr>
             </thead>
             <tbody>
