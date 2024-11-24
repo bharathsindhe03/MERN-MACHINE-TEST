@@ -1,45 +1,52 @@
 import React, { useState } from 'react';
-import styles from './CreateEmployee.module.css'; 
+import styles from './CreateEmployee.module.css'; // Importing CSS module for styling
 
+// Main component for creating an employee
 const CreateEmployee = () => {
+  // State to manage form data
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     mobile: '',
     designation: '',
     gender: '',
-    course: [],
-    image: null,
+    course: [], // Array to hold multiple selected courses
+    image: null, // To store the uploaded image file
   });
 
+  // Handle input field changes (text, email, etc.)
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
-      ...formData,
-      [name]: value,
+      ...formData, // Keep existing form data
+      [name]: value, // Update the field being modified
     });
   };
 
+  // Handle changes in checkbox selection for courses
   const handleCheckboxChange = (e) => {
     const { value, checked } = e.target;
     setFormData((prevState) => {
       const updatedCourses = checked
-        ? [...prevState.course, value]
-        : prevState.course.filter((course) => course !== value);
+        ? [...prevState.course, value] // Add course if checked
+        : prevState.course.filter((course) => course !== value); // Remove course if unchecked
       return { ...prevState, course: updatedCourses };
     });
   };
 
+  // Handle file input for image upload
   const handleFileChange = (e) => {
     setFormData({
       ...formData,
-      image: e.target.files[0],
+      image: e.target.files[0], // Save the selected file
     });
   };
 
+  // Handle form submission
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); // Prevent default form submission behavior
 
+    // Create a FormData object to send form data including files
     const formDataObj = new FormData();
     formDataObj.append('name', formData.name);
     formDataObj.append('email', formData.email);
@@ -50,13 +57,15 @@ const CreateEmployee = () => {
     formDataObj.append('image', formData.image);
 
     try {
+      // Send POST request to the backend
       const response = await fetch('http://localhost:5000/employees/create', {
         method: 'POST',
-        body: formDataObj,
+        body: formDataObj, // Send form data
       });
 
       if (response.ok) {
         alert('Employee created successfully!');
+        // Reset form fields after successful submission
         setFormData({
           name: '',
           email: '',
@@ -67,7 +76,7 @@ const CreateEmployee = () => {
           image: null,
         });
       } else {
-        const data = await response.json();
+        const data = await response.json(); // Parse error response
         alert(data.message || 'An error occurred');
       }
     } catch (error) {
@@ -76,10 +85,12 @@ const CreateEmployee = () => {
     }
   };
 
+  // Render form UI
   return (
-    <div className={styles.container}> {/* Use className for outer container */}
+    <div className={styles.container}> {/* Outer container */}
       <h2 className={styles.header}>Create Employee</h2>
       <form onSubmit={handleSubmit} className={styles.form}>
+        {/* Name input */}
         <div className={styles.formGroup}>
           <label htmlFor="name" className={styles.label}>Name:</label>
           <input
@@ -94,6 +105,7 @@ const CreateEmployee = () => {
           />
         </div>
 
+        {/* Email input */}
         <div className={styles.formGroup}>
           <label htmlFor="email" className={styles.label}>Email:</label>
           <input
@@ -108,6 +120,7 @@ const CreateEmployee = () => {
           />
         </div>
 
+        {/* Mobile input */}
         <div className={styles.formGroup}>
           <label htmlFor="mobile" className={styles.label}>Mobile No:</label>
           <input
@@ -122,6 +135,7 @@ const CreateEmployee = () => {
           />
         </div>
 
+        {/* Designation dropdown */}
         <div className={styles.formGroup}>
           <label htmlFor="designation" className={styles.label}>Designation:</label>
           <select
@@ -139,6 +153,7 @@ const CreateEmployee = () => {
           </select>
         </div>
 
+        {/* Gender radio buttons */}
         <div className={styles.formGroup}>
           <label className={styles.label}>Gender:</label>
           <label className={styles.radioLabel}>
@@ -166,6 +181,7 @@ const CreateEmployee = () => {
           </label>
         </div>
 
+        {/* Courses checkbox group */}
         <div className={styles.formGroup}>
           <label className={styles.label}>Course:</label>
           <label className={styles.checkboxLabel}>
@@ -203,6 +219,7 @@ const CreateEmployee = () => {
           </label>
         </div>
 
+        {/* Image file upload */}
         <div className={styles.formGroup}>
           <label htmlFor="image" className={styles.label}>Upload Image:</label>
           <input
@@ -216,6 +233,7 @@ const CreateEmployee = () => {
           />
         </div>
 
+        {/* Submit button */}
         <button type="submit" className={styles.submitButton}>Submit</button>
       </form>
     </div>
