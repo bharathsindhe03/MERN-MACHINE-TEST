@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-
+import style from "./Login.module.css"
 const Login = () => {
   // State to hold the email and password values entered by the user
   const [email, setEmail] = useState('');
@@ -46,6 +46,7 @@ const Login = () => {
           type="email"
           placeholder="Email"
           value={email}
+          className={style['input-field']}
           onChange={(e) => setEmail(e.target.value)} // Update email state on change
           required
         />
@@ -55,12 +56,13 @@ const Login = () => {
           type="password"
           placeholder="Password"
           value={password}
+          className={style['input-field']}
           onChange={(e) => setPassword(e.target.value)} // Update password state on change
           required
         />
         
         {/* Submit button */}
-        <button type="submit">Login</button>
+        <button type="submit" className={style['input-field']}>Login</button>
       </form>
     </div>
   );

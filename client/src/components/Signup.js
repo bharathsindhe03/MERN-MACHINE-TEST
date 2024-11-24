@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import style from './Signup.module.css'; // Import the CSS module
 
 const Signup = () => {
   // State to store the input values for name, email, and password
@@ -21,15 +22,16 @@ const Signup = () => {
   };
 
   return (
-    <div>
-      <h2>Signup</h2>
-      <form onSubmit={handleSignup}> {/* Handle form submission */}
+    <div className={style['signup-container']}>
+      <form onSubmit={handleSignup} className={style['signup-form']}>
+        <h2>Signup</h2>
         {/* Input field for the user's name */}
         <input
           type="text"
           placeholder="Name"
           value={name}
           onChange={(e) => setName(e.target.value)} // Update name state on change
+          className={style['input-field']}
           required
         />
         {/* Input field for the user's email */}
@@ -38,6 +40,7 @@ const Signup = () => {
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)} // Update email state on change
+          className={style['input-field']}
           required
         />
         {/* Input field for the user's password */}
@@ -46,10 +49,11 @@ const Signup = () => {
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)} // Update password state on change
+          className={style['input-field']}
           required
         />
         {/* Submit button to trigger the form submission */}
-        <button type="submit">Signup</button>
+        <button type="submit" className={style['signup-button']}>Signup</button>
       </form>
     </div>
   );
