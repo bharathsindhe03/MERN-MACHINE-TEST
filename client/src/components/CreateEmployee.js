@@ -221,7 +221,7 @@ const CreateEmployee = () => {
 
         {/* Image file upload */}
         <div className={styles.formGroup}>
-          <label htmlFor="image" className={styles.label}>Upload Image:</label>
+          <label htmlFor="image" className={styles.label}>Img Upload:</label>
           <input
             type="file"
             id="image"

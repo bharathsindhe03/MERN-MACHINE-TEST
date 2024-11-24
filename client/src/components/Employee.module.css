@@ -1,47 +1,9 @@
-/* General Styles */
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-h2 {
-  text-align: center;
-  margin: 20px 0;
-  color: #333;
-}
-
-a {
-  text-decoration: none;
-  color: #007bff;
-  margin-right: 10px;
-  font-weight: bold;
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
-/* Search Input */
-.searchInput {
-  display: block;
-  margin: 10px auto 20px;
-  padding: 10px;
-  width: 80%; /* Adjusted for a better look */
-  max-width: 500px; /* Prevents stretching too much on larger screens */
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 16px;
-  box-sizing: border-box;
-}
-
 /* Table Styles */
 .table {
-  width: 100%;
+  width: 100%; /* Full width for the table */
   border-collapse: collapse;
   margin: 20px auto;
-  max-width: 1200px; /* Limit the width for better readability */
+  max-width: 100%; /* Optional: Limit the width for better readability */
 }
 
 .th, .td {
@@ -55,17 +17,25 @@ a:hover {
   background-color: #f8f9fa;
   font-weight: bold;
   text-align: center;
+  position: relative;
+}
+
+.sortArrow {
+  margin-left: 5px;
+  cursor: pointer;
+  font-size: 12px;
+  vertical-align: middle;
 }
 
 .td {
-  vertical-align: middle; /* Align content in the middle */
-  text-align: center; /* Center text for better aesthetics */
+  vertical-align: middle;
+  text-align: center;
 }
 
 .td img {
   display: block;
   margin: auto;
-  border-radius: 50%; /* Rounded images */
+  border-radius: 50%;
 }
 
 /* Alternating Row Colors */
@@ -98,26 +68,4 @@ a:hover {
 .button:disabled {
   background-color: #ccc;
   cursor: not-allowed;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .table {
-    width: 100%;
-    font-size: 14px; /* Reduce font size for smaller screens */
-  }
-
-  .searchInput {
-    width: calc(100% - 40px); /* Ensure proper spacing on small screens */
-  }
-
-  .button {
-    padding: 5px 10px; /* Adjust button padding for small screens */
-    font-size: 12px;
-  }
-
-  .td img {
-    width: 40px; /* Adjust image size for smaller screens */
-    height: 40px;
-  }
 }

@@ -2,11 +2,10 @@ import React from "react";
 import Navbar from "./Navbar";
 
 const Dashboard = () => {
-
   return (
     <div>
-      <Navbar/>
-      <h1>Welcome to the Dashboard</h1>
+      <Navbar />
+      <h1 style={{ textAlign: "center" }}>Welcome to the Admin Panel</h1>
     </div>
   );
 };

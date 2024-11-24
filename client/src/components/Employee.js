@@ -3,127 +3,133 @@ import Navbar from './Navbar';
 import styles from './Employee.module.css';
 
 const Employee = () => {
-  // State to hold the list of employees and the filtered employees
   const [employees, setEmployees] = useState([]);
   const [filteredEmployees, setFilteredEmployees] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [sortConfig, setSortConfig] = useState({ key: '', direction: '' });
 
-  // Fetch the list of employees from the backend when the component mounts
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
-        // Sending request to the backend to fetch employees
         const response = await fetch('http://localhost:5000/employees');
-        const data = await response.json(); // Converting the response to JSON
-        setEmployees(data); // Saving employees in state
-        setFilteredEmployees(data); // Initial list for filtered employees
+        const data = await response.json();
+        setEmployees(data);
+        setFilteredEmployees(data);
       } catch (error) {
-        console.error('Error fetching employees:', error); // Log any error that occurs
+        console.error('Error fetching employees:', error);
       }
     };
 
-    fetchEmployees(); // Call the function to fetch employees
+    fetchEmployees();
   }, []);
 
-  // Function to handle search input and filter employees
   const handleSearch = (e) => {
-    const term = e.target.value.toLowerCase(); // Convert the search term to lowercase
-    setSearchTerm(term); // Update the search term in state
+    const term = e.target.value.toLowerCase();
+    setSearchTerm(term);
     const filtered = employees.filter((employee) =>
       Object.values(employee).some(
         (value) =>
           value &&
-          value.toString().toLowerCase().includes(term) // Check if any field contains the search term
+          value.toString().toLowerCase().includes(term)
       )
     );
-    setFilteredEmployees(filtered); // Update the filtered list of employees
+    setFilteredEmployees(filtered);
   };
 
-  // Function to handle sorting of employees by a given key
   const sortEmployees = (key) => {
-    let direction = 'asc'; // Default direction is ascending
+    let direction = 'asc';
     if (sortConfig.key === key && sortConfig.direction === 'asc') {
-      direction = 'desc'; // If already sorted in ascending order, change to descending
+      direction = 'desc';
     }
 
     const sortedEmployees = [...filteredEmployees].sort((a, b) => {
       if (key === 'time') {
-        // Special sorting for date fields
         const dateA = new Date(a[key]);
         const dateB = new Date(b[key]);
-        return direction === 'asc' ? dateA - dateB : dateB - dateA; // Sort by date
+        return direction === 'asc' ? dateA - dateB : dateB - dateA;
       }
 
-      if (a[key] < b[key]) return direction === 'asc' ? -1 : 1; // Sort alphabetically for non-date fields
+      if (a[key] < b[key]) return direction === 'asc' ? -1 : 1;
       if (a[key] > b[key]) return direction === 'asc' ? 1 : -1;
       return 0;
     });
 
-    setSortConfig({ key, direction }); // Set sorting configuration in state
-    setFilteredEmployees(sortedEmployees); // Update the filtered list of employees after sorting
+    setSortConfig({ key, direction });
+    setFilteredEmployees(sortedEmployees);
   };
 
-  // Function to delete an employee
   const deleteEmployee = async (id) => {
     try {
       const response = await fetch(`http://localhost:5000/employees/${id}`, {
-        method: 'DELETE', // Sending a DELETE request to remove the employee
+        method: 'DELETE',
       });
 
       if (response.ok) {
-        // If the response is successful, filter out the deleted employee from the list
         const updatedEmployees = employees.filter((employee) => employee.eid !== id);
-        setEmployees(updatedEmployees); // Update the state with the remaining employees
-        setFilteredEmployees(updatedEmployees); // Also update the filtered list
-        alert('Employee deleted successfully'); // Show success message
+        setEmployees(updatedEmployees);
+        setFilteredEmployees(updatedEmployees);
+        alert('Employee deleted successfully');
       } else {
-        console.error('Failed to delete employee'); // Log if deletion failed
+        console.error('Failed to delete employee');
       }
     } catch (error) {
-      console.error('Error deleting employee:', error); // Log any error that occurs
+      console.error('Error deleting employee:', error);
     }
   };
 
   return (
     <>
-      <Navbar /> {/* Navigation bar component */}
-      <a href="/createEmployee">Create Employee</a> {/* Link to create a new employee */}
+      <Navbar />
+      <div style={{ float: 'right', display: 'flex', alignItems: 'center' }}>
+        <div style={{ marginRight: '20px' }}>Total Count: {employees.length}</div>
+        <a href="/createEmployee" style={{ textDecoration: 'none', color: 'blue', fontWeight: 'bold' }}>
+          Create Employee
+        </a>
+      </div>
+
       <div>
         <h2>Employee List</h2>
         <input
           type="text"
           placeholder="Search employees..."
           value={searchTerm}
-          onChange={handleSearch} // Handle input change for search
+          onChange={handleSearch}
           className={styles.searchInput}
         />
         {filteredEmployees.length === 0 ? (
-          <p>No employees available.</p> // If no employees match the search, show this message
+          <p>No employees available.</p>
         ) : (
           <table className={styles.table}>
             <thead>
               <tr className={styles.tr}>
                 <th className={styles.th}>
-                  Id{' '}
-                  <button onClick={() => sortEmployees('eid')} className={styles.button}>Sort</button>
+                  Unique Id
+                  <span onClick={() => sortEmployees('eid')} className={styles.sortArrow}>
+                    {sortConfig.key === 'eid' && sortConfig.direction === 'asc' ? '↑' : '↓'}
+                  </span>
                 </th>
                 <th className={styles.th}>Image</th>
                 <th className={styles.th}>
-                  Name{' '}
-                  <button onClick={() => sortEmployees('name')} className={styles.button}>Sort</button>
+                  Name
+                  <span onClick={() => sortEmployees('name')} className={styles.sortArrow}>
+                    {sortConfig.key === 'name' && sortConfig.direction === 'asc' ? '↑' : '↓'}
+                  </span>
                 </th>
                 <th className={styles.th}>
-                  Email{' '}
-                  <button onClick={() => sortEmployees('email')} className={styles.button}>Sort</button>
+                  Email
+                  <span onClick={() => sortEmployees('email')} className={styles.sortArrow}>
+                    {sortConfig.key === 'email' && sortConfig.direction === 'asc' ? '↑' : '↓'}
+                  </span>
                 </th>
-                <th className={styles.th}>Mobile</th>
+                <th className={styles.th}>Mobile No</th>
                 <th className={styles.th}>Designation</th>
                 <th className={styles.th}>Gender</th>
                 <th className={styles.th}>Course</th>
                 <th className={styles.th}>
-                  Create Date{' '}
-                  <button onClick={() => sortEmployees('time')} className={styles.button}>Sort</button>
+                  Create Date
+                  <span onClick={() => sortEmployees('time')} className={styles.sortArrow}>
+                    {sortConfig.key === 'time' && sortConfig.direction === 'asc' ? '↑' : '↓'}
+                  </span>
                 </th>
                 <th className={styles.th}>Action</th>
               </tr>
@@ -135,7 +141,7 @@ const Employee = () => {
                   <td className={styles.td}>
                     {employee.image && (
                       <img
-                        src={`http://localhost:5000${employee.image}`} // Display employee image
+                        src={`http://localhost:5000${employee.image}`}
                         alt="Employee"
                         width="50"
                         height="50"
@@ -164,3 +170,4 @@ const Employee = () => {
 };
 
 export default Employee;
+

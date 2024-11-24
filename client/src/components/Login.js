@@ -44,7 +44,7 @@ const Login = () => {
         {/* Email input field */}
         <input
           type="email"
-          placeholder="Email"
+          placeholder="User Name"
           value={email}
           className={style['input-field']}
           onChange={(e) => setEmail(e.target.value)} // Update email state on change

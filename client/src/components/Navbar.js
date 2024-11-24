@@ -33,6 +33,7 @@ const Navbar = ({ onLogout }) => {
 
   return (
     <nav className={styles.navbar}> {/* Navbar container */}
+      <div ><Link to="/dashboard" className={styles.link}>Home</Link></div>
       <div>
         {/* Link to employee list page */}
         <Link to="/employees" className={styles.link}>Employee List</Link>

@@ -151,7 +151,7 @@ const EditEmployee = () => {
         )}
       </div>
       <div className={styles['form-group']}>
-        <label>New Image:</label>
+        <label>Img Upload:</label>
         <input type="file" name="image" onChange={handleImageChange} />
       </div>
       <button type="submit" className={styles.button}>
