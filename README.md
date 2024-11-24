@@ -93,47 +93,22 @@ Ensure you have the following installed:
 
 Below is the workflow diagram representing the architecture of this MERN stack application:  
 
-![Workflow Diagram](./client/src/assets/diagram.png)  
+![Workflow Diagram](./client/src/assets/workFlow.png)  
 
 ---
 
-
-## 🧪 Testing  
-
-To run tests (if implemented):  
-
-```bash
-# Backend tests
-cd server
-npm test
-
-# Frontend tests
-cd ../client
-npm test
-```
+### Email Us:
+<ul>
+  <li>
+    <a href='mailto:sindhebharath10@gmail.com'>sindhebharath10@gmail.com</a>
+  </li>
+  
+</ul>
 
 ---
+## Author
+  ### Connect with us on LinkedIn to explore collaboration opportunities for projects and work
+ - [Bharath R Sindhe](https://www.linkedin.com/in/bharathsindhe03/)
 
-## 🤝 Contribution  
-
-Contributions are welcome! Please follow these steps:  
-
-1. Fork the repository.  
-2. Create a feature branch: `git checkout -b feature-name`.  
-3. Commit your changes: `git commit -m 'Add a new feature'`.  
-4. Push to the branch: `git push origin feature-name`.  
-5. Open a pull request.  
-
----
-
-## 📄 License  
-
-This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for details.  
-
----
-
-## 🙌 Acknowledgements  
-
-Thanks to all the contributors and the open-source community for their amazing support and tools.  
-
----  
+ 
+ ---

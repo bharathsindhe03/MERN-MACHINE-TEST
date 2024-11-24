@@ -11,7 +11,13 @@ const employeeRoutes = require('./routes/employeeRoutes');
 const app = express();
 const PORT = 5000;
 
-connectDB();
+
+
+connectDB().then(()=>{
+  console.log("mongodb connected")
+}).catch((err)=>{
+  console.log("Error",err);
+})
 
 // Middleware
 app.use(cors());
