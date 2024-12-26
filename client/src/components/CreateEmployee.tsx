@@ -1,21 +1,21 @@
-import React, { useState } from 'react';
-import styles from './CreateEmployee.module.css'; // Importing CSS module for styling
+import { useState } from "react";
+import styles from "./CreateEmployee.module.css"; // Importing CSS module for styling
 
 // Main component for creating an employee
 const CreateEmployee = () => {
   // State to manage form data
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    mobile: '',
-    designation: '',
-    gender: '',
-    course: [], // Array to hold multiple selected courses
+    name: "",
+    email: "",
+    mobile: "",
+    designation: "",
+    gender: "",
+    course: [""], // Array to hold multiple selected courses
     image: null, // To store the uploaded image file
   });
 
   // Handle input field changes (text, email, etc.)
-  const handleChange = (e) => {
+  const handleChange = (e: any) => {
     const { name, value } = e.target;
     setFormData({
       ...formData, // Keep existing form data
@@ -24,18 +24,18 @@ const CreateEmployee = () => {
   };
 
   // Handle changes in checkbox selection for courses
-  const handleCheckboxChange = (e) => {
+  const handleCheckboxChange = (e: any) => {
     const { value, checked } = e.target;
-    setFormData((prevState) => {
+    setFormData((prevState: any) => {
       const updatedCourses = checked
         ? [...prevState.course, value] // Add course if checked
-        : prevState.course.filter((course) => course !== value); // Remove course if unchecked
+        : prevState.course.filter((course: any) => course !== value); // Remove course if unchecked
       return { ...prevState, course: updatedCourses };
     });
   };
 
   // Handle file input for image upload
-  const handleFileChange = (e) => {
+  const handleFileChange = (e: any) => {
     setFormData({
       ...formData,
       image: e.target.files[0], // Save the selected file
@@ -43,56 +43,62 @@ const CreateEmployee = () => {
   };
 
   // Handle form submission
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault(); // Prevent default form submission behavior
 
     // Create a FormData object to send form data including files
     const formDataObj = new FormData();
-    formDataObj.append('name', formData.name);
-    formDataObj.append('email', formData.email);
-    formDataObj.append('mobile', formData.mobile);
-    formDataObj.append('designation', formData.designation);
-    formDataObj.append('gender', formData.gender);
-    formData.course.forEach((course) => formDataObj.append('course', course));
-    formDataObj.append('image', formData.image);
+    formDataObj.append("name", formData.name);
+    formDataObj.append("email", formData.email);
+    formDataObj.append("mobile", formData.mobile);
+    formDataObj.append("designation", formData.designation);
+    formDataObj.append("gender", formData.gender);
+    formData.course.forEach((course) => formDataObj.append("course", course));
+    if (formData.image) {
+      formDataObj.append("image", formData.image);
+    }
 
     try {
       // Send POST request to the backend
-      const response = await fetch('http://localhost:5000/employees/create', {
-        method: 'POST',
+      const response = await fetch("http://localhost:5000/employees/create", {
+        method: "POST",
         body: formDataObj, // Send form data
       });
 
       if (response.ok) {
-        alert('Employee created successfully!');
+        alert("Employee created successfully!");
         // Reset form fields after successful submission
         setFormData({
-          name: '',
-          email: '',
-          mobile: '',
-          designation: '',
-          gender: '',
+          name: "",
+          email: "",
+          mobile: "",
+          designation: "",
+          gender: "",
           course: [],
           image: null,
         });
       } else {
         const data = await response.json(); // Parse error response
-        alert(data.message || 'An error occurred');
+        alert(data.message || "An error occurred");
       }
     } catch (error) {
-      console.error('Error creating employee:', error);
-      alert('An error occurred. Please try again.');
+      console.error("Error creating employee:", error);
+      alert("An error occurred. Please try again.");
     }
   };
 
   // Render form UI
   return (
-    <div className={styles.container}> {/* Outer container */}
+    <div className={styles.container}>
+      {" "}
+      {/* Outer container */}
       <h2 className={styles.header}>Create Employee</h2>
       <form onSubmit={handleSubmit} className={styles.form}>
         {/* Name input */}
         <div className={styles.formGroup}>
-          <label htmlFor="name" className={styles.label}>Name:</label>
+          <label htmlFor="name" className={styles.label}>
+            Name:
+          </label>
           <input
             type="text"
             id="name"
@@ -107,7 +113,9 @@ const CreateEmployee = () => {
 
         {/* Email input */}
         <div className={styles.formGroup}>
-          <label htmlFor="email" className={styles.label}>Email:</label>
+          <label htmlFor="email" className={styles.label}>
+            Email:
+          </label>
           <input
             type="email"
             id="email"
@@ -122,7 +130,9 @@ const CreateEmployee = () => {
 
         {/* Mobile input */}
         <div className={styles.formGroup}>
-          <label htmlFor="mobile" className={styles.label}>Mobile No:</label>
+          <label htmlFor="mobile" className={styles.label}>
+            Mobile No:
+          </label>
           <input
             type="text"
             id="mobile"
@@ -137,7 +147,9 @@ const CreateEmployee = () => {
 
         {/* Designation dropdown */}
         <div className={styles.formGroup}>
-          <label htmlFor="designation" className={styles.label}>Designation:</label>
+          <label htmlFor="designation" className={styles.label}>
+            Designation:
+          </label>
           <select
             id="designation"
             name="designation"
@@ -161,7 +173,7 @@ const CreateEmployee = () => {
               type="radio"
               name="gender"
               value="Male"
-              checked={formData.gender === 'Male'}
+              checked={formData.gender === "Male"}
               onChange={handleChange}
               className={styles.radio}
               required
@@ -173,7 +185,7 @@ const CreateEmployee = () => {
               type="radio"
               name="gender"
               value="Female"
-              checked={formData.gender === 'Female'}
+              checked={formData.gender === "Female"}
               onChange={handleChange}
               className={styles.radio}
             />
@@ -189,7 +201,7 @@ const CreateEmployee = () => {
               type="checkbox"
               name="course"
               value="MCA"
-              checked={formData.course.includes('MCA')}
+              checked={formData.course.includes("MCA")}
               onChange={handleCheckboxChange}
               className={styles.checkbox}
             />
@@ -200,7 +212,7 @@ const CreateEmployee = () => {
               type="checkbox"
               name="course"
               value="BCA"
-              checked={formData.course.includes('BCA')}
+              checked={formData.course.includes("BCA")}
               onChange={handleCheckboxChange}
               className={styles.checkbox}
             />
@@ -211,7 +223,7 @@ const CreateEmployee = () => {
               type="checkbox"
               name="course"
               value="BSC"
-              checked={formData.course.includes('BSC')}
+              checked={formData.course.includes("BSC")}
               onChange={handleCheckboxChange}
               className={styles.checkbox}
             />
@@ -221,7 +233,9 @@ const CreateEmployee = () => {
 
         {/* Image file upload */}
         <div className={styles.formGroup}>
-          <label htmlFor="image" className={styles.label}>Img Upload:</label>
+          <label htmlFor="image" className={styles.label}>
+            Img Upload:
+          </label>
           <input
             type="file"
             id="image"
@@ -234,7 +248,9 @@ const CreateEmployee = () => {
         </div>
 
         {/* Submit button */}
-        <button type="submit" className={styles.submitButton}>Submit</button>
+        <button type="submit" className={styles.submitButton}>
+          Submit
+        </button>
       </form>
     </div>
   );

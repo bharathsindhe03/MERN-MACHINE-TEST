@@ -14,7 +14,7 @@ const PORT = 5000;
 
 
 connectDB().then(()=>{
-  console.log("mongodb connected")
+  console.log("MongoDB connected")
 }).catch((err)=>{
   console.log("Error",err);
 })

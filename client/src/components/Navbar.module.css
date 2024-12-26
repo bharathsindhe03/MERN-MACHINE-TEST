@@ -49,7 +49,9 @@
     align-items: flex-start; /* Align items to the start on smaller screens */
   }
 
-  .link, .employee-name, .button {
+  .link,
+  .employee-name,
+  .button {
     margin: 5px 0; /* Add spacing between elements */
   }
 

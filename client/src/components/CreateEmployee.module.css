@@ -33,7 +33,9 @@
   display: block;
 }
 
-.input, .select, .fileInput {
+.input,
+.select,
+.fileInput {
   width: 100%;
   padding: 10px;
   border: 1px solid #ccc;
@@ -44,11 +46,14 @@
   transition: border-color 0.3s ease;
 }
 
-.input:focus, .select:focus, .fileInput:focus {
+.input:focus,
+.select:focus,
+.fileInput:focus {
   border-color: #007bff;
 }
 
-.radioLabel, .checkboxLabel {
+.radioLabel,
+.checkboxLabel {
   display: flex;
   align-items: center;
   margin-right: 15px;
@@ -58,7 +63,8 @@
   margin-bottom: 8px;
 }
 
-.radio, .checkbox {
+.radio,
+.checkbox {
   margin-right: 10px;
   transform: scale(1.2);
 }
