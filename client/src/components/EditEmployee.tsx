@@ -1,8 +1,7 @@
-import { useState, useEffect, ChangeEvent, FormEvent } from "react"; // Importing React hooks and event types
-import { useParams, useNavigate } from "react-router-dom"; // Importing React Router hooks
-import styles from "./EditEmployee.module.css"; // Importing CSS module for styling
+import { useState, useEffect, ChangeEvent, FormEvent } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import styles from "./EditEmployee.module.css";
 
-// Define the Employee interface
 interface Employee {
   name: string;
   email: string;
@@ -13,39 +12,35 @@ interface Employee {
   image: string | null;
 }
 
-// Main EditEmployee component
 const EditEmployee = () => {
-  const { id } = useParams(); // Extract employee ID from the URL
-  const navigate = useNavigate(); // Hook for programmatic navigation
-  const [employee, setEmployee] = useState<Employee | null>(null); // State to store employee details
-  const [loading, setLoading] = useState<boolean>(true); // State to track loading status
-  const [error, setError] = useState<string | null>(null); // State to store error message
-  const [newImage, setNewImage] = useState<File | null>(null); // State for new image upload
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [employee, setEmployee] = useState<Employee | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  const [newImage, setNewImage] = useState<File | null>(null);
 
-  // Predefined options
   const designations = ["HR", "Manager", "Sales"];
   const coursesList = ["MCA", "BCA", "BSC"];
 
-  // Fetch employee data on component mount
   useEffect(() => {
     const fetchEmployee = async () => {
       try {
         const response = await fetch(`http://localhost:5000/employees/${id}`);
         if (!response.ok) throw new Error("Failed to fetch employee data");
         const data = await response.json();
-        setEmployee(data); // Store fetched data in state
+        setEmployee(data);
       } catch (err: any) {
         console.error("Error:", err.message);
         setError(err.message);
       } finally {
-        setLoading(false); // Stop loading regardless of success or failure
+        setLoading(false);
       }
     };
 
     fetchEmployee();
   }, [id]);
 
-  // Handle text, select, and checkbox input changes
   const handleInputChange = (e: any) => {
     const { name, value, checked, type } = e.target;
 
@@ -64,17 +59,14 @@ const EditEmployee = () => {
     });
   };
 
-  // Handle file input changes
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setNewImage(e.target.files[0]);
     }
   };
 
-  // Handle form submission
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-
     if (!employee) return;
 
     const formData = new FormData();
@@ -93,25 +85,19 @@ const EditEmployee = () => {
       });
 
       if (!response.ok) throw new Error("Failed to update employee");
-      navigate("/employees"); // Redirect on success
+      navigate("/employees");
     } catch (err: any) {
       console.error("Error updating employee:", err.message);
       setError(err.message);
     }
   };
 
-  // Show loading state
   if (loading) return <p>Loading...</p>;
-
-  // Show error state
   if (error) return <p>Error: {error}</p>;
-
-  // Show null check for employee state
   if (!employee) return <p>No employee data found!</p>;
 
   return (
     <form onSubmit={handleSubmit} className={styles.form}>
-      {/* Name */}
       <div className={styles["form-group"]}>
         <label>Name:</label>
         <input
@@ -122,7 +108,6 @@ const EditEmployee = () => {
         />
       </div>
 
-      {/* Email */}
       <div className={styles["form-group"]}>
         <label>Email:</label>
         <input
@@ -133,7 +118,6 @@ const EditEmployee = () => {
         />
       </div>
 
-      {/* Mobile */}
       <div className={styles["form-group"]}>
         <label>Mobile:</label>
         <input
@@ -144,7 +128,6 @@ const EditEmployee = () => {
         />
       </div>
 
-      {/* Designation */}
       <div className={styles["form-group"]}>
         <label>Designation:</label>
         <select
@@ -160,7 +143,6 @@ const EditEmployee = () => {
         </select>
       </div>
 
-      {/* Gender */}
       <div className={styles["form-group"]}>
         <label>Gender:</label>
         <label>
@@ -185,7 +167,6 @@ const EditEmployee = () => {
         </label>
       </div>
 
-      {/* Courses */}
       <div className={styles["form-group"]}>
         <label>Courses:</label>
         {coursesList.map((course) => (
@@ -202,7 +183,6 @@ const EditEmployee = () => {
         ))}
       </div>
 
-      {/* Image Preview */}
       <div className={styles["form-group"]}>
         <label>Current Image:</label>
         {employee.image && (
@@ -214,13 +194,11 @@ const EditEmployee = () => {
         )}
       </div>
 
-      {/* Image Upload */}
       <div className={styles["form-group"]}>
         <label>Image Upload:</label>
         <input type="file" name="image" onChange={handleImageChange} />
       </div>
 
-      {/* Submit Button */}
       <button type="submit" className={styles.button}>
         Update
       </button>

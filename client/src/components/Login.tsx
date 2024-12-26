@@ -1,72 +1,83 @@
-import { useState } from "react";
+import { useState, FormEvent } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import style from "./Login.module.css";
 
 const Login = () => {
-  // State to hold the email and password values entered by the user
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const navigate = useNavigate(); // Hook to handle navigation after login
+  // State to handle registration form fields
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [confirmPassword, setConfirmPassword] = useState<string>("");
 
-  // Function to handle form submission and user login
-  const handleLogin = async (e: any) => {
+  const navigate = useNavigate(); // Hook for navigation
+
+  // Handle form submission
+  const handleRegister = async (e: FormEvent) => {
     e.preventDefault(); // Prevent default form submission
 
+    if (password !== confirmPassword) {
+      alert("Passwords do not match!");
+      return;
+    }
+
     try {
-      // Send a POST request to the backend to authenticate the user
+      // API call for registration
       const response = await axios.post("http://localhost:5000/auth/login", {
         email,
         password,
       });
 
-      // Show the success message returned from the backend
-      alert(response.data.message);
+      alert(response.data.message); // Show success message
 
-      // Save the JWT token returned by the backend in localStorage for further authentication
-      localStorage.setItem("token", response.data.token);
-
-      // Redirect the user to the dashboard page after successful login
+      // Navigate to login page on successful registration
       navigate("/dashboard");
     } catch (error: any) {
-      // Handle errors in login process
-      if (error.response && error.response.data && error.response.data.error) {
-        // Show the backend error message if it exists
-        alert(error.response.data.error);
+      if (error.response?.data?.error) {
+        alert(error.response.data.error); // Show backend error message
       } else {
-        // Log and show a general error message if there's an unexpected error
-        console.error("Login error:", error);
+        console.error("Registration error:", error);
         alert("An unexpected error occurred. Please try again later.");
       }
     }
   };
 
   return (
-    <div>
-      <h2>Login</h2>
-      <form onSubmit={handleLogin}>
-        {" "}
-        {/* Handle form submission */}
-        {/* Email input field */}
+    <div className={style.registerContainer}>
+      <form onSubmit={handleRegister} className={style.registerForm}>
+        <h2 className={style.registerTitle}>Login</h2>
+        
+        {/* Email Input */}
         <input
           type="email"
-          placeholder="User Name"
+          placeholder="Email"
           value={email}
-          className={style["input-field"]}
-          onChange={(e) => setEmail(e.target.value)} // Update email state on change
+          className={style.inputField}
+          onChange={(e) => setEmail(e.target.value)}
           required
         />
-        {/* Password input field */}
+
+        {/* Password Input */}
         <input
           type="password"
           placeholder="Password"
           value={password}
-          className={style["input-field"]}
-          onChange={(e) => setPassword(e.target.value)} // Update password state on change
+          className={style.inputField}
+          onChange={(e) => setPassword(e.target.value)}
           required
         />
-        {/* Submit button */}
-        <button type="submit" className={style["input-field"]}>
+
+        {/* Confirm Password Input */}
+        <input
+          type="password"
+          placeholder="Confirm Password"
+          value={confirmPassword}
+          className={style.inputField}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          required
+        />
+
+        {/* Submit Button */}
+        <button type="submit" className={style.registerButton}>
           Login
         </button>
       </form>

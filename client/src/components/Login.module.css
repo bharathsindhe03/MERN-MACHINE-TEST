@@ -1,6 +1,4 @@
-/* Login.module.css */
-
-.login-container {
+.registerContainer {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -8,7 +6,7 @@
   background-color: #f0f2f5;
 }
 
-.login-form {
+.registerForm {
   background-color: white;
   padding: 20px;
   border-radius: 8px;
@@ -16,14 +14,14 @@
   width: 300px;
 }
 
-.login-form h2 {
+.registerForm h2 {
   text-align: center;
   margin-bottom: 20px;
   font-size: 24px;
   color: #333;
 }
 
-.input-field {
+.inputField {
   width: 100%;
   padding: 10px;
   margin: 10px 0;
@@ -32,15 +30,15 @@
   font-size: 16px;
 }
 
-.input-field:focus {
-  border-color: #007bff;
+.inputField:focus {
+  border-color: #28a745;
   outline: none;
 }
 
-.login-button {
+.registerButton {
   width: 100%;
   padding: 12px;
-  background-color: #007bff;
+  background-color: #28a745;
   color: white;
   border: none;
   border-radius: 4px;
@@ -48,6 +46,6 @@
   cursor: pointer;
 }
 
-.login-button:hover {
-  background-color: #0056b3;
+.registerButton:hover {
+  background-color: #1e7e34;
 }
