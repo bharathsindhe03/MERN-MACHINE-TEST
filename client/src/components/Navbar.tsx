@@ -26,7 +26,7 @@ const Navbar = () => {
       {" "}
       {/* Navbar container */}
       <div>
-        <Link to="/dashboard" className={styles.link}>
+        <Link to="/" className={styles.link}>
           Home
         </Link>
       </div>
