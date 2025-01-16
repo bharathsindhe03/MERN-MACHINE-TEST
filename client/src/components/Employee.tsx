@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Employee.module.css";
-import { fetchAllEmployees } from "../Service/FetchEmployee";
+import { fetchAllEmployees } from "../Service/FetchAllEmployee";
 import { handleDeleteEmployee } from "../Service/DeleteEmployee";
 import Navbar from "./Navbar";
 
@@ -68,6 +68,10 @@ const Employee = () => {
 
     setSortConfig({ key, direction });
     setFilteredEmployees(sorted);
+  };
+
+  const editEmployee = async (id: string) => {
+    navigate(`/employees/edit/${id}`);
   };
 
   const deleteEmployee = async (id: string) => {
@@ -154,7 +158,7 @@ const Employee = () => {
                 )}
               </td>
               <td>
-                <button>Edit</button>
+                <button onClick={() => editEmployee(employee.eid)}>Edit</button>
                 <button onClick={() => deleteEmployee(employee.eid)}>
                   Delete
                 </button>

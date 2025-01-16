@@ -2,21 +2,13 @@ import { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import styles from "./EditEmployee.module.css";
 import { fetchEmployee } from "../Service/FetchEmployee";
-
-interface Employee {
-  name: string;
-  email: string;
-  mobile: string;
-  designation: string;
-  gender: string;
-  course: string[];
-  image: string | null;
-}
+import type { Employee } from "../Interface/Employee"; // Import Employee type
+import handleEditEmployee from "../Service/EditEmployee";
 
 const EditEmployee = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [employee, setEmployee] = useState<Employee | null>(null);
+  const [employee, setEmployee] = useState<Employee | null>(null); // Use Employee type
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [newImage, setNewImage] = useState<File | null>(null);
@@ -25,21 +17,23 @@ const EditEmployee = () => {
   const coursesList = ["MCA", "BCA", "BSC"];
 
   useEffect(() => {
-    
-
-    fetchEmployee();
+    if (id) {
+      fetchEmployee(id, setEmployee, setLoading, setError); // Fetch employee data
+    }
   }, [id]);
 
-  const handleInputChange = (e: any) => {
-    const { name, value, checked, type } = e.target;
+  const handleInputChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value, type, checked } = e.target as HTMLInputElement;
 
-    setEmployee((prev) => {
-      if (!prev) return prev;
+    setEmployee((prev: Employee | null) => {
+      if (!prev) return prev; // Ensure previous state is not null
 
-      if (name === "course" && type === "checkbox") {
+      if (type === "checkbox" && name === "course") {
         const updatedCourses = checked
-          ? [...(prev.course || []), value]
-          : (prev.course || []).filter((c) => c !== value);
+          ? [...prev.course, value]
+          : prev.course.filter((c) => c !== value);
 
         return { ...prev, course: updatedCourses };
       }
@@ -56,29 +50,11 @@ const EditEmployee = () => {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    if (!employee) return;
+    if (!employee || !id) return;
 
-    const formData = new FormData();
-    formData.append("name", employee.name);
-    formData.append("email", employee.email);
-    formData.append("mobile", employee.mobile);
-    formData.append("designation", employee.designation);
-    formData.append("gender", employee.gender);
-    formData.append("course", JSON.stringify(employee.course));
-    if (newImage) formData.append("image", newImage);
-
-    try {
-      const response = await fetch(`http://localhost:5000/employees/${id}`, {
-        method: "PUT",
-        body: formData,
-      });
-
-      if (!response.ok) throw new Error("Failed to update employee");
-      navigate("/employees");
-    } catch (err: any) {
-      console.error("Error updating employee:", err.message);
-      setError(err.message);
-    }
+    const imageUrl = newImage ? URL.createObjectURL(newImage) : null;
+    await handleEditEmployee(e, employee, id, imageUrl, setError);
+    navigate("/employees"); // Redirect after successful update
   };
 
   if (loading) return <p>Loading...</p>;

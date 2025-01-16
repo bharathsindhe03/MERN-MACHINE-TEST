@@ -84,13 +84,14 @@ router.put("/:id", upload.single("image"), async (req, res) => {
     if (!/\S+@\S+\.\S+/.test(email)) {
       return res.status(400).json({ message: "Invalid email format." });
     }
+
     const updateData = {
-      name: req.body.name,
-      email: req.body.email,
-      mobile: req.body.mobile,
-      designation: req.body.designation,
-      gender: req.body.gender,
-      course: req.body.course ? JSON.parse(req.body.course) : undefined,
+      name,
+      email,
+      mobile,
+      designation,
+      gender,
+      course: course ? JSON.parse(course) : [],
     };
 
     if (req.file) updateData.image = `/uploads/${req.file.filename}`;
@@ -100,15 +101,17 @@ router.put("/:id", upload.single("image"), async (req, res) => {
       updateData,
       { new: true }
     );
-    if (!employee)
+
+    if (!employee) {
       return res.status(404).json({ message: "Employee not found" });
+    }
 
     res
       .status(200)
       .json({ message: "Employee updated successfully!", employee });
   } catch (error) {
     console.error("Error updating employee:", error);
-    res.status(500).json({ error: "Error updating employee" });
+    res.status(500).json({ message: "Error updating employee" });
   }
 });
 

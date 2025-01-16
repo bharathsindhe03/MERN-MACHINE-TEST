@@ -1,16 +1,13 @@
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
 const handleEditEmployee = async (
   e: React.FormEvent,
   employee: any,
-  id: string | undefined,
-  newImage: File | null,
+  id: string,
+  newImage: string | null,
   setError: React.Dispatch<React.SetStateAction<string | null>>
 ) => {
-  const navigate = useNavigate();
   e.preventDefault();
-  if (!employee) return;
 
   const formData = new FormData();
   formData.append("name", employee.name);
@@ -25,15 +22,11 @@ const handleEditEmployee = async (
     const response = await axios.put(
       `${import.meta.env.VITE_BASE_URL}/employees/${id}`,
       formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }
+      { headers: { "Content-Type": "multipart/form-data" } }
     );
 
     if (response.status === 200) {
-      navigate("/employees");
+      alert("Employee updated successfully!");
     } else {
       throw new Error("Failed to update employee");
     }

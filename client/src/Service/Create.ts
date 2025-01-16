@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { FormData } from "../Interface/types"; // Import shared FormData interface
+import type { FormData } from "../Interface/FormData"; // Import shared FormData interface
 
 export const handleCreate = async (
   formData: FormData,
@@ -7,7 +7,7 @@ export const handleCreate = async (
   navigate: (path: string) => void // Accept navigate function
 ) => {
   const formDataObj = new FormData();
-  
+
   Object.entries(formData).forEach(([key, value]) => {
     if (Array.isArray(value)) {
       value.forEach((v) => formDataObj.append(key, v));
