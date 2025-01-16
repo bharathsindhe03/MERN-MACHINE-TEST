@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import styles from "./CreateEmployee.module.css";
 import { handleCreate } from "../Service/Create";
 
-// Define the type for the form data
 interface FormData {
   name: string;
   email: string;
@@ -13,8 +12,7 @@ interface FormData {
   course: string[];
   image: File | null;
 }
-
-const CreateEmployee = () => {
+export default function CreateEmployee() {
   const [formData, setFormData] = useState<FormData>({
     name: "",
     email: "",
@@ -55,8 +53,8 @@ const CreateEmployee = () => {
   };
 
   const handleCreateEmployee = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault(); // Prevent page reload
-    await handleCreate(formData, setFormData, navigate); // Pass navigate
+    e.preventDefault(); 
+    await handleCreate(formData, setFormData, navigate); 
   };
 
   return (
@@ -157,6 +155,4 @@ const CreateEmployee = () => {
       </form>
     </div>
   );
-};
-
-export default CreateEmployee;
+}

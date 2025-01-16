@@ -17,7 +17,7 @@ interface Employee {
   time: string;
 }
 
-const Employee = () => {
+export default function Employee() {
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [filteredEmployees, setFilteredEmployees] = useState<Employee[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>("");
@@ -167,10 +167,8 @@ const Employee = () => {
                 )}
               </td>
               <td>
-                <a onClick={() => editEmployee(employee.eid)}>Edit</a> - 
-                <a onClick={() => deleteEmployee(employee.eid)}>
-                  Delete
-                </a>
+                <a onClick={() => editEmployee(employee.eid)}>Edit</a> -
+                <a onClick={() => deleteEmployee(employee.eid)}>Delete</a>
               </td>
             </tr>
           ))}
@@ -178,6 +176,4 @@ const Employee = () => {
       </table>
     </div>
   );
-};
-
-export default Employee;
+}

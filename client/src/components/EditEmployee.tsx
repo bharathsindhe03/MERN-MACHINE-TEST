@@ -5,7 +5,7 @@ import { fetchEmployee } from "../Service/FetchEmployee";
 import type { Employee } from "../Interface/Employee";
 import handleEditEmployee from "../Service/EditEmployee";
 
-const EditEmployee = () => {
+export default function EditEmployee() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [employee, setEmployee] = useState<Employee | null>(null);
@@ -168,6 +168,4 @@ const EditEmployee = () => {
       </button>
     </form>
   );
-};
-
-export default EditEmployee;
+}
