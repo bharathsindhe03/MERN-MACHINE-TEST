@@ -1,33 +1,23 @@
 import { useState } from "react";
-import axios from "axios";
 import style from "./Signup.module.css"; // Import the CSS module
+import { handleSignup } from "../Service/Signup";
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
   // State to store the input values for name, email, and password
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const navigate = useNavigate();
   // Handle the signup form submission
-  const handleSignup = async (e: any) => {
-    e.preventDefault(); // Prevent the default form submission
-
-    try {
-      // Make a POST request to the backend to create a new user
-      const response = await axios.post("http://localhost:5000/auth/signup", {
-        name,
-        email,
-        password,
-      });
-      alert(response.data.message); // Show success message from the backend
-    } catch (error: any) {
-      alert(error.response.data.error); // Show error message from the backend
-    }
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault(); // Prevent default form submission
+    await handleSignup({ name, email, password, navigate }); // Pass navigate as a parameter
   };
 
   return (
     <div className={style.signup_container}>
-      <form onSubmit={handleSignup} className={style.signup_form}>
+      <form onSubmit={onSubmit} className={style.signup_form}>
         <h2>Signup</h2>
         {/* Input field for the user's name */}
         <input

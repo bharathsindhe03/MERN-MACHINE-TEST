@@ -1,161 +1,104 @@
 import { useState } from "react";
-import styles from "./CreateEmployee.module.css"; // Importing CSS module for styling
+import { useNavigate } from "react-router-dom";
+import styles from "./CreateEmployee.module.css";
+import { handleCreate } from "../Service/Create";
 
-// Main component for creating an employee
+// Define the type for the form data
+interface FormData {
+  name: string;
+  email: string;
+  mobile: string;
+  designation: string;
+  gender: string;
+  course: string[];
+  image: File | null;
+}
+
 const CreateEmployee = () => {
-  // State to manage form data
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     name: "",
     email: "",
     mobile: "",
     designation: "",
     gender: "",
-    course: [""], // Array to hold multiple selected courses
-    image: null, // To store the uploaded image file
+    course: [],
+    image: null,
   });
 
-  // Handle input field changes (text, email, etc.)
-  const handleChange = (e: any) => {
+  const navigate = useNavigate();
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData, // Keep existing form data
-      [name]: value, // Update the field being modified
-    });
+    setFormData((prevState) => ({ ...prevState, [name]: value }));
   };
 
-  // Handle changes in checkbox selection for courses
-  const handleCheckboxChange = (e: any) => {
+  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, checked } = e.target;
-    setFormData((prevState: any) => {
-      const updatedCourses = checked
-        ? [...prevState.course, value] // Add course if checked
-        : prevState.course.filter((course: any) => course !== value); // Remove course if unchecked
-      return { ...prevState, course: updatedCourses };
-    });
+    setFormData((prevState) => ({
+      ...prevState,
+      course: checked
+        ? [...prevState.course, value]
+        : prevState.course.filter((c) => c !== value),
+    }));
   };
 
-  // Handle file input for image upload
-  const handleFileChange = (e: any) => {
-    setFormData({
-      ...formData,
-      image: e.target.files[0], // Save the selected file
-    });
-  };
-
-  // Handle form submission
-  const handleSubmit = async (e: any) => {
-    e.preventDefault(); // Prevent default form submission behavior
-
-    // Create a FormData object to send form data including files
-    const formDataObj = new FormData();
-    formDataObj.append("name", formData.name);
-    formDataObj.append("email", formData.email);
-    formDataObj.append("mobile", formData.mobile);
-    formDataObj.append("designation", formData.designation);
-    formDataObj.append("gender", formData.gender);
-    formData.course.forEach((course) => formDataObj.append("course", course));
-    if (formData.image) {
-      formDataObj.append("image", formData.image);
-    }
-
-    try {
-      // Send POST request to the backend
-      const response = await fetch("http://localhost:5000/employees/create", {
-        method: "POST",
-        body: formDataObj, // Send form data
-      });
-
-      if (response.ok) {
-        alert("Employee created successfully!");
-        // Reset form fields after successful submission
-        setFormData({
-          name: "",
-          email: "",
-          mobile: "",
-          designation: "",
-          gender: "",
-          course: [],
-          image: null,
-        });
-      } else {
-        const data = await response.json(); // Parse error response
-        alert(data.message || "An error occurred");
-      }
-    } catch (error) {
-      console.error("Error creating employee:", error);
-      alert("An error occurred. Please try again.");
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setFormData((prevState) => ({
+        ...prevState,
+        image: file,
+      }));
     }
   };
 
-  // Render form UI
+  const handleCreateEmployee = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault(); // Prevent page reload
+    await handleCreate(formData, setFormData, navigate); // Pass navigate
+  };
+
   return (
     <div className={styles.container}>
-      {" "}
-      {/* Outer container */}
-      <h2 className={styles.header}>Create Employee</h2>
-      <form onSubmit={handleSubmit} className={styles.form}>
-        {/* Name input */}
+      <h2>Create Employee</h2>
+      <form onSubmit={handleCreateEmployee} className={styles.form}>
         <div className={styles.formGroup}>
-          <label htmlFor="name" className={styles.label}>
-            Name:
-          </label>
+          <label>Name:</label>
           <input
             type="text"
-            id="name"
             name="name"
-            placeholder="Name"
             value={formData.name}
             onChange={handleChange}
-            className={styles.input}
             required
           />
         </div>
-
-        {/* Email input */}
         <div className={styles.formGroup}>
-          <label htmlFor="email" className={styles.label}>
-            Email:
-          </label>
+          <label>Email:</label>
           <input
             type="email"
-            id="email"
             name="email"
-            placeholder="Email"
             value={formData.email}
             onChange={handleChange}
-            className={styles.input}
             required
           />
         </div>
-
-        {/* Mobile input */}
         <div className={styles.formGroup}>
-          <label htmlFor="mobile" className={styles.label}>
-            Mobile No:
-          </label>
+          <label>Mobile:</label>
           <input
             type="text"
-            id="mobile"
             name="mobile"
-            placeholder="Mobile No"
             value={formData.mobile}
             onChange={handleChange}
-            className={styles.input}
             required
           />
         </div>
-
-        {/* Designation dropdown */}
         <div className={styles.formGroup}>
-          <label htmlFor="designation" className={styles.label}>
-            Designation:
-          </label>
+          <label>Designation:</label>
           <select
-            id="designation"
             name="designation"
             value={formData.designation}
             onChange={handleChange}
-            className={styles.select}
             required
           >
             <option value="">Select Designation</option>
@@ -164,93 +107,53 @@ const CreateEmployee = () => {
             <option value="Sales">Sales</option>
           </select>
         </div>
-
-        {/* Gender radio buttons */}
         <div className={styles.formGroup}>
-          <label className={styles.label}>Gender:</label>
-          <label className={styles.radioLabel}>
+          <label>Gender:</label>
+          <label>
             <input
               type="radio"
               name="gender"
               value="Male"
               checked={formData.gender === "Male"}
               onChange={handleChange}
-              className={styles.radio}
-              required
             />
             Male
           </label>
-          <label className={styles.radioLabel}>
+          <label>
             <input
               type="radio"
               name="gender"
               value="Female"
               checked={formData.gender === "Female"}
               onChange={handleChange}
-              className={styles.radio}
             />
             Female
           </label>
         </div>
-
-        {/* Courses checkbox group */}
         <div className={styles.formGroup}>
-          <label className={styles.label}>Course:</label>
-          <label className={styles.checkboxLabel}>
-            <input
-              type="checkbox"
-              name="course"
-              value="MCA"
-              checked={formData.course.includes("MCA")}
-              onChange={handleCheckboxChange}
-              className={styles.checkbox}
-            />
-            MCA
-          </label>
-          <label className={styles.checkboxLabel}>
-            <input
-              type="checkbox"
-              name="course"
-              value="BCA"
-              checked={formData.course.includes("BCA")}
-              onChange={handleCheckboxChange}
-              className={styles.checkbox}
-            />
-            BCA
-          </label>
-          <label className={styles.checkboxLabel}>
-            <input
-              type="checkbox"
-              name="course"
-              value="BSC"
-              checked={formData.course.includes("BSC")}
-              onChange={handleCheckboxChange}
-              className={styles.checkbox}
-            />
-            BSC
-          </label>
+          <label>Courses:</label>
+          {["MCA", "BCA", "BSC"].map((course) => (
+            <label key={course}>
+              <input
+                type="checkbox"
+                value={course}
+                checked={formData.course.includes(course)}
+                onChange={handleCheckboxChange}
+              />
+              {course}
+            </label>
+          ))}
         </div>
-
-        {/* Image file upload */}
         <div className={styles.formGroup}>
-          <label htmlFor="image" className={styles.label}>
-            Img Upload:
-          </label>
+          <label>Image:</label>
           <input
             type="file"
-            id="image"
-            name="image"
-            accept="image/*"
+            accept="image/png, image/jpeg"
             onChange={handleFileChange}
-            className={styles.fileInput}
             required
           />
         </div>
-
-        {/* Submit button */}
-        <button type="submit" className={styles.submitButton}>
-          Submit
-        </button>
+        <button type="submit">Submit</button>
       </form>
     </div>
   );

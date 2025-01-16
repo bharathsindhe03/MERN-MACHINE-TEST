@@ -1,6 +1,7 @@
 import { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import styles from "./EditEmployee.module.css";
+import { fetchEmployee } from "../Service/FetchEmployee";
 
 interface Employee {
   name: string;
@@ -24,19 +25,7 @@ const EditEmployee = () => {
   const coursesList = ["MCA", "BCA", "BSC"];
 
   useEffect(() => {
-    const fetchEmployee = async () => {
-      try {
-        const response = await fetch(`http://localhost:5000/employees/${id}`);
-        if (!response.ok) throw new Error("Failed to fetch employee data");
-        const data = await response.json();
-        setEmployee(data);
-      } catch (err: any) {
-        console.error("Error:", err.message);
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
+    
 
     fetchEmployee();
   }, [id]);
