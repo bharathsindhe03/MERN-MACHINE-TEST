@@ -89,51 +89,60 @@ const Employee = () => {
           onChange={handleSearch}
           className={styles.searchInput}
         />
-        <button
+        <a
           className={styles.createButton}
           onClick={() => navigate("/createEmployee")}
         >
           Create Employee
-        </button>
+        </a>
       </div>
       <table className={styles.table}>
         <thead>
           <tr>
             <th>
               Name
-              <button
+              <a
                 onClick={() => sortEmployees("name")}
                 className={styles.sortButton}
               >
-                Sort
-              </button>
+                {sortConfig.key === "name" && sortConfig.direction === "asc"
+                  ? "↑"
+                  : "↓"}
+              </a>
             </th>
             <th>
               Email
-              <button
+              <a
                 onClick={() => sortEmployees("email")}
                 className={styles.sortButton}
               >
-                Sort
-              </button>
+                {sortConfig.key === "email" && sortConfig.direction === "asc"
+                  ? "↑"
+                  : "↓"}
+              </a>
             </th>
             <th>
               Mobile
-              <button
+              <a
                 onClick={() => sortEmployees("mobile")}
                 className={styles.sortButton}
               >
-                Sort
-              </button>
+                {sortConfig.key === "mobile" && sortConfig.direction === "asc"
+                  ? "↑"
+                  : "↓"}
+              </a>
             </th>
             <th>
               Designation
-              <button
+              <a
                 onClick={() => sortEmployees("designation")}
                 className={styles.sortButton}
               >
-                Sort
-              </button>
+                {sortConfig.key === "designation" &&
+                sortConfig.direction === "asc"
+                  ? "↑"
+                  : "↓"}
+              </a>
             </th>
             <th>Image</th>
             <th>Actions</th>
@@ -149,7 +158,7 @@ const Employee = () => {
               <td>
                 {employee.image ? (
                   <img
-                    src={`${import.meta.env.VITE_BASE_URL}/${employee.image}`}
+                    src={`${import.meta.env.VITE_BASE_URL}${employee.image}`}
                     alt="Employee"
                     className={styles.employeeImage}
                   />
@@ -158,10 +167,10 @@ const Employee = () => {
                 )}
               </td>
               <td>
-                <button onClick={() => editEmployee(employee.eid)}>Edit</button>
-                <button onClick={() => deleteEmployee(employee.eid)}>
+                <a onClick={() => editEmployee(employee.eid)}>Edit</a> - 
+                <a onClick={() => deleteEmployee(employee.eid)}>
                   Delete
-                </button>
+                </a>
               </td>
             </tr>
           ))}

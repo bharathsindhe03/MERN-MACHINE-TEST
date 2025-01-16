@@ -2,13 +2,13 @@ import { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import styles from "./EditEmployee.module.css";
 import { fetchEmployee } from "../Service/FetchEmployee";
-import type { Employee } from "../Interface/Employee"; // Import Employee type
+import type { Employee } from "../Interface/Employee";
 import handleEditEmployee from "../Service/EditEmployee";
 
 const EditEmployee = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [employee, setEmployee] = useState<Employee | null>(null); // Use Employee type
+  const [employee, setEmployee] = useState<Employee | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [newImage, setNewImage] = useState<File | null>(null);
@@ -18,7 +18,7 @@ const EditEmployee = () => {
 
   useEffect(() => {
     if (id) {
-      fetchEmployee(id, setEmployee, setLoading, setError); // Fetch employee data
+      fetchEmployee(id, setEmployee, setLoading, setError);
     }
   }, [id]);
 
@@ -28,8 +28,7 @@ const EditEmployee = () => {
     const { name, value, type, checked } = e.target as HTMLInputElement;
 
     setEmployee((prev: Employee | null) => {
-      if (!prev) return prev; // Ensure previous state is not null
-
+      if (!prev) return prev;
       if (type === "checkbox" && name === "course") {
         const updatedCourses = checked
           ? [...prev.course, value]
@@ -54,7 +53,7 @@ const EditEmployee = () => {
 
     const imageUrl = newImage ? URL.createObjectURL(newImage) : null;
     await handleEditEmployee(e, employee, id, imageUrl, setError);
-    navigate("/employees"); // Redirect after successful update
+    navigate("/employees");
   };
 
   if (loading) return <p>Loading...</p>;
@@ -152,9 +151,9 @@ const EditEmployee = () => {
         <label>Current Image:</label>
         {employee.image && (
           <img
-            src={`http://localhost:5000${employee.image}`}
+            src={`${import.meta.env.VITE_BASE_URL}/${employee.image}`}
             alt="Employee"
-            style={{ width: "100px", height: "100px" }}
+            className={styles.employeeImage}
           />
         )}
       </div>
