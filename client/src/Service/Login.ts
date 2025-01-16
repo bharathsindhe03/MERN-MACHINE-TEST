@@ -31,7 +31,7 @@ export const handleRegister = async ({
     } else {
       console.error("No token received from server");
     }
-    navigate("/dashboard");
+    navigate("/");
   } catch (error: any) {
     if (error.response?.data?.error) {
       alert(error.response.data.error);
