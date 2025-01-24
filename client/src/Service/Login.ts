@@ -12,7 +12,7 @@ export const handleRegister = async ({
   navigate,
 }: RegisterData) => {
   console.log("login ");
-
+  console.log(`${import.meta.env.VITE_BASE_URL}/auth/login`);
   try {
     const response = await axios.post(
       `${import.meta.env.VITE_BASE_URL}/auth/login`,
@@ -25,8 +25,8 @@ export const handleRegister = async ({
     alert(response.data.message);
     const { token, name } = response.data;
     if (token) {
-      localStorage.setItem("authToken", token); 
-      localStorage.setItem("username", name); 
+      localStorage.setItem("authToken", token);
+      localStorage.setItem("username", name);
       console.log("Token saved to localStorage");
     } else {
       console.error("No token received from server");
