@@ -18,7 +18,7 @@ export const handleCreate = async (
 
   try {
     const response = await axios.post(
-      `${import.meta.env.VITE_BASE_URL}/employees/create`,
+      `${import.meta.env.VITE_BASE_URL}employees/create`,
       formDataObj,
       { headers: { "Content-Type": "multipart/form-data" } }
     );

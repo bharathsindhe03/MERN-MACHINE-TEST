@@ -20,7 +20,7 @@ const handleEditEmployee = async (
 
   try {
     const response = await axios.put(
-      `${import.meta.env.VITE_BASE_URL}/employees/${id}`,
+      `${import.meta.env.VITE_BASE_URL}employees/${id}`,
       formData,
       { headers: { "Content-Type": "multipart/form-data" } }
     );

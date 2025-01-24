@@ -20,7 +20,7 @@ export const fetchAllEmployees = async (
 ) => {
   try {
     const response = await axios.get(
-      `${import.meta.env.VITE_BASE_URL}/employees`
+      `${import.meta.env.VITE_BASE_URL}employees`
     );
     const data: Employee[] = response.data;
     setEmployees(data);

@@ -24,7 +24,7 @@ export const handleDeleteEmployee = async (
 
   try {
     const response = await axios.delete(
-      `${import.meta.env.VITE_BASE_URL}/employees/${id}`
+      `${import.meta.env.VITE_BASE_URL}employees/${id}`
     );
 
     if (response.status === 200) {
