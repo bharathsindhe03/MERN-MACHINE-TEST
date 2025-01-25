@@ -1,6 +1,6 @@
 import axios from "axios";
 import type { RegisterData } from "../Interface/RegisterData";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 
 export const handleRegister = async ({
   email,

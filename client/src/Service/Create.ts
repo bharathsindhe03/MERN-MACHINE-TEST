@@ -1,6 +1,6 @@
 import axios from "axios";
 import type { FormData } from "../Interface/FormData"; // Import shared FormData interface
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 
 export const handleCreate = async (
   formData: FormData,

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Dispatch, SetStateAction } from "react";
 import type { Employee } from "../Interface/Employee";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 
 export const handleDeleteEmployee = async (
   id: string,

@@ -4,7 +4,7 @@ import styles from "./EditEmployee.module.css";
 import { fetchEmployee } from "../../Service/FetchEmployee";
 import type { Employee } from "../../Interface/Employee";
 import handleEditEmployee from "../../Service/EditEmployee";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import Animation from "../../components/Animation/Animation";
 export default function EditEmployee() {
   const { id } = useParams();
