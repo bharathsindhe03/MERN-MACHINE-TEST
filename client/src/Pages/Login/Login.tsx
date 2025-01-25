@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import style from "./Login.module.css";
-import { handleRegister } from "../Service/Login";
+import { handleRegister } from "../../Service/Login";
 import { Link, useNavigate } from "react-router-dom";
 
 export default function Login() {
@@ -43,13 +43,11 @@ export default function Login() {
           Login
         </button>
         <div>
-        <Link to="/signup" className={style.link}>
-          No account yet? Register here
-        </Link>
-      </div>
+          <Link to="/signup" className={style.link}>
+            No account yet? Register here
+          </Link>
+        </div>
       </form>
     </div>
   );
 }
-
-

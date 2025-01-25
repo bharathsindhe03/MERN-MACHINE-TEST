@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./CreateEmployee.module.css";
-import { handleCreate } from "../Service/Create";
-import type { FormData } from "../Interface/FormData";
+import { handleCreate } from "../../Service/Create";
+import type { FormData } from "../../Interface/FormData";
 
 export default function CreateEmployee() {
   const [formData, setFormData] = useState<FormData>({

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import style from "./Signup.module.css";
-import { handleSignup } from "../Service/Signup";
+import { handleSignup } from "../../Service/Signup";
 import { Link, useNavigate } from "react-router-dom";
 
 export default function Signup() {

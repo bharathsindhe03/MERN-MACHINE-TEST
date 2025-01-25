@@ -1,9 +1,9 @@
 import { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import styles from "./EditEmployee.module.css";
-import { fetchEmployee } from "../Service/FetchEmployee";
-import type { Employee } from "../Interface/Employee";
-import handleEditEmployee from "../Service/EditEmployee";
+import { fetchEmployee } from "../../Service/FetchEmployee";
+import type { Employee } from "../../Interface/Employee";
+import handleEditEmployee from "../../Service/EditEmployee";
 import { toast } from "react-toastify";
 
 export default function EditEmployee() {

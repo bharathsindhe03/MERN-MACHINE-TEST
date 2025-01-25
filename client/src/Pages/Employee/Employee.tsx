@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Employee.module.css";
-import { fetchAllEmployees } from "../Service/FetchAllEmployee";
-import { handleDeleteEmployee } from "../Service/DeleteEmployee";
-import Navbar from "./Navbar";
+import { fetchAllEmployees } from "../../Service/FetchAllEmployee";
+import { handleDeleteEmployee } from "../../Service/DeleteEmployee";
+import Navbar from "../../components/Navbar/Navbar";
 
-import type { Employee } from "../Interface/Employee";
+import type { Employee } from "../../Interface/Employee";
 
 export default function Employee() {
   const [employees, setEmployees] = useState<Employee[]>([]);
