@@ -1,5 +1,6 @@
 import axios from "axios";
 import type { RegisterData } from "../Interface/RegisterData";
+import { toast } from "react-toastify";
 
 export const handleRegister = async ({
   email,
@@ -17,7 +18,7 @@ export const handleRegister = async ({
       }
     );
     console.log("login sucessful");
-    alert(response.data.message);
+    toast.success("Login successful!");
     const { token, name } = response.data;
     if (token) {
       localStorage.setItem("authToken", token);
@@ -29,10 +30,10 @@ export const handleRegister = async ({
     navigate("/dashboard");
   } catch (error: any) {
     if (error.response?.data?.error) {
-      alert(error.response.data.error);
+      toast.error(error.response.data.error);
     } else {
       console.error("Login error:", error);
-      alert("An unexpected error occurred. Please try again later.");
+      toast.error("An unexpected error occurred. Please try again later.");
     }
   }
 };

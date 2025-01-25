@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 
 interface SignupData {
   name: string;
@@ -26,14 +27,16 @@ export const handleSignup = async ({
     );
 
     alert(response.data.message);
-    console.log("Signup completed");
+    toast.success("Signup successful! Please login to continue.");
+    
     navigate("/");
   } catch (error: any) {
     if (error.response?.data?.error) {
       alert(error.response.data.error);
     } else {
       console.error("Signup error:", error);
-      alert("An unexpected error occurred. Please try again later.");
+      toast.error("An unexpected error occurred. Please try again later.");
+      
     }
   }
 };

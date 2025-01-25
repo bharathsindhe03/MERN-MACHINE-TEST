@@ -1,5 +1,6 @@
 import axios from "axios";
 import type { FormData } from "../Interface/FormData"; // Import shared FormData interface
+import { toast } from "react-toastify";
 
 export const handleCreate = async (
   formData: FormData,
@@ -24,7 +25,7 @@ export const handleCreate = async (
     );
 
     if (response.status === 201) {
-      alert("Employee created successfully!");
+      toast.success("Employee Created successfully!");
       setFormData({
         name: "",
         email: "",

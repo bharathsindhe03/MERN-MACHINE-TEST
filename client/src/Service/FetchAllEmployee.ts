@@ -1,6 +1,7 @@
 import axios from "axios";
 import { Dispatch, SetStateAction } from "react";
 import type { Employee } from "../Interface/Employee";
+import { toast } from "react-toastify";
 // Function to fetch all employees
 export const fetchAllEmployees = async (
   setEmployees: Dispatch<SetStateAction<Employee[]>>,
@@ -15,6 +16,6 @@ export const fetchAllEmployees = async (
     setFilteredEmployees(data);
   } catch (error: any) {
     console.error("Error fetching employees:", error.message);
-    alert("Failed to fetch employees. Please try again later.");
+    toast.error("Failed to fetch employees. Please try again later.");
   }
 };

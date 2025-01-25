@@ -1,6 +1,7 @@
 import axios from "axios";
 import { Dispatch, SetStateAction } from "react";
 import type { Employee } from "../Interface/Employee";
+import { toast } from "react-toastify";
 
 export const handleDeleteEmployee = async (
   id: string,
@@ -21,12 +22,12 @@ export const handleDeleteEmployee = async (
       setFilteredEmployees((prev) =>
         prev.filter((employee) => employee.eid !== id)
       );
-      alert("Employee deleted successfully.");
+      toast.success("Employee deleted successfully.");
     } else {
-      alert("Failed to delete employee.");
+      toast.error("Failed to delete employee.");
     }
   } catch (error) {
     console.error("Error deleting employee:", error);
-    alert("An error occurred while deleting the employee. Please try again.");
+    toast.error("An error occurred while deleting the employee. Please try again.");
   }
 };

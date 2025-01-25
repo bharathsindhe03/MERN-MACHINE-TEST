@@ -5,7 +5,7 @@ import { fetchEmployee } from "../../Service/FetchEmployee";
 import type { Employee } from "../../Interface/Employee";
 import handleEditEmployee from "../../Service/EditEmployee";
 import { toast } from "react-toastify";
-
+import Animation from "../../components/Animation/Animation";
 export default function EditEmployee() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -62,7 +62,7 @@ export default function EditEmployee() {
   };
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <Animation />;
   }
   if (error) return <p className={styles.error}>{error}</p>;
   if (!employee) return <p>No employee data found!</p>;

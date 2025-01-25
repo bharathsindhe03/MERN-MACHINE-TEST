@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const handleEditEmployee = async (
   e: React.FormEvent,
@@ -26,7 +27,8 @@ const handleEditEmployee = async (
 
     if (response.status === 200) {
       console.log("Employee updated:", response.data);
-      alert("Employee updated successfully!");
+      toast.success("Employee updated successfully!");
+      
     } else {
       throw new Error("Failed to update employee");
     }
