@@ -8,7 +8,6 @@ export default function Navbar() {
 
   useEffect(() => {
     const username = localStorage.getItem("username");
-
     if (username) {
       setEmployeeName(username || "User");
     }
@@ -18,12 +17,11 @@ export default function Navbar() {
     localStorage.removeItem("authtoken");
     localStorage.removeItem("username");
     setEmployeeName("User");
-    navigate("/login");
+    navigate("/");
   };
 
   return (
     <nav className={styles.navbar}>
-      {" "}
       <div>
         <Link to="/" className={styles.link}>
           Home
@@ -34,9 +32,8 @@ export default function Navbar() {
           Employee List
         </Link>
       </div>
-      <div className={styles["employee-name"]}>
-        {" "}
-        <strong>{employeeName}</strong>{" "}
+      <div className={styles.employeeName}>
+        <strong>{employeeName}</strong>
       </div>
       <button onClick={handleLogout} className={styles.button}>
         Logout

@@ -1,18 +1,6 @@
 import axios from "axios";
 import { Dispatch, SetStateAction } from "react";
-
-interface Employee {
-  eid: string;
-  image?: string;
-  name: string;
-  email: string;
-  mobile: string;
-  designation: string;
-  gender: string;
-  course: string[];
-  time: string;
-}
-
+import type { Employee } from "../Interface/Employee";
 // Function to fetch all employees
 export const fetchAllEmployees = async (
   setEmployees: Dispatch<SetStateAction<Employee[]>>,
@@ -20,7 +8,7 @@ export const fetchAllEmployees = async (
 ) => {
   try {
     const response = await axios.get(
-      `${import.meta.env.VITE_BASE_URL}employees`
+      `${import.meta.env.VITE_BASE_URL}/employees`
     );
     const data: Employee[] = response.data;
     setEmployees(data);

@@ -71,7 +71,6 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// Update Employee
 router.put("/:id", upload.single("image"), async (req, res) => {
   try {
     const { name, email, mobile, designation, gender, course } = req.body;
@@ -94,7 +93,13 @@ router.put("/:id", upload.single("image"), async (req, res) => {
       course: course ? JSON.parse(course) : [],
     };
 
-    if (req.file) updateData.image = `/uploads/${req.file.filename}`;
+    // Log the uploaded file
+    if (req.file) {
+      console.log("File uploaded:", req.file);
+      updateData.image = `/uploads/${req.file.filename}`;
+    } else {
+      console.log("No file uploaded.");
+    }
 
     const employee = await Employee.findOneAndUpdate(
       { eid: req.params.id },

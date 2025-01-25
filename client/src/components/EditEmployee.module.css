@@ -8,27 +8,25 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.form-group {
+.formGroup {
   margin-bottom: 20px;
 }
 
-label {
+.label {
   display: block;
   font-weight: bold;
   margin-bottom: 8px;
 }
 
-input[type="text"],
-input[type="email"],
-input[type="file"],
-select {
+.input,
+.select {
   width: 100%;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 6px;
 }
 
-button {
+.button {
   width: 100%;
   padding: 12px;
   background-color: #007bff;
@@ -39,6 +37,26 @@ button {
   cursor: pointer;
 }
 
-button:hover {
+.button:hover {
   background-color: #0056b3;
+}
+
+.employeeImage {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-bottom: 20px;
+}
+
+.radio {
+  margin-right: 8px;
+}
+
+.checkbox {
+  margin-right: 8px;
+}
+
+.checkboxLabel {
+  display: inline-block;
+  margin-right: 15px;
 }

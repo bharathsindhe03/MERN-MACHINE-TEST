@@ -1,10 +1,5 @@
 import axios from "axios";
-
-interface RegisterData {
-  email: string;
-  password: string;
-  navigate: (path: string) => void;
-}
+import type { RegisterData } from "../Interface/RegisterData";
 
 export const handleRegister = async ({
   email,
@@ -12,10 +7,10 @@ export const handleRegister = async ({
   navigate,
 }: RegisterData) => {
   console.log("login ");
-  console.log(`${import.meta.env.VITE_BASE_URL}auth/login`);
+  console.log(`${import.meta.env.VITE_BASE_URL}/auth/login`);
   try {
     const response = await axios.post(
-      `${import.meta.env.VITE_BASE_URL}auth/login`,
+      `${import.meta.env.VITE_BASE_URL}/auth/login`,
       {
         email,
         password,

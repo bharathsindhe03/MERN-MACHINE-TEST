@@ -4,6 +4,7 @@ import styles from "./EditEmployee.module.css";
 import { fetchEmployee } from "../Service/FetchEmployee";
 import type { Employee } from "../Interface/Employee";
 import handleEditEmployee from "../Service/EditEmployee";
+import { toast } from "react-toastify";
 
 export default function EditEmployee() {
   const { id } = useParams();
@@ -27,7 +28,7 @@ export default function EditEmployee() {
   ) => {
     const { name, value, type, checked } = e.target as HTMLInputElement;
 
-    setEmployee((prev: Employee | null) => {
+    setEmployee((prev) => {
       if (!prev) return prev;
       if (type === "checkbox" && name === "course") {
         const updatedCourses = checked
@@ -51,53 +52,68 @@ export default function EditEmployee() {
     e.preventDefault();
     if (!employee || !id) return;
 
-    const imageUrl = newImage ? URL.createObjectURL(newImage) : null;
-    await handleEditEmployee(e, employee, id, imageUrl, setError);
-    navigate("/employees");
+    try {
+      await handleEditEmployee(e, employee, id, newImage, setError);
+      toast.success("Employee updated successfully!");
+      navigate("/employees");
+    } catch (err) {
+      toast.error("Failed to update employee.");
+    }
   };
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+  if (error) return <p className={styles.error}>{error}</p>;
   if (!employee) return <p>No employee data found!</p>;
 
   return (
     <form onSubmit={handleSubmit} className={styles.form}>
-      <div className={styles["form-group"]}>
-        <label>Name:</label>
+      <div className={styles.formGroup}>
+        <label className={styles.label}>Name:</label>
         <input
           type="text"
           name="name"
           value={employee.name}
           onChange={handleInputChange}
+          className={styles.input}
+          required
         />
       </div>
 
-      <div className={styles["form-group"]}>
-        <label>Email:</label>
+      <div className={styles.formGroup}>
+        <label className={styles.label}>Email:</label>
         <input
           type="email"
           name="email"
           value={employee.email}
           onChange={handleInputChange}
+          className={styles.input}
+          required
         />
       </div>
 
-      <div className={styles["form-group"]}>
-        <label>Mobile:</label>
+      <div className={styles.formGroup}>
+        <label className={styles.label}>Mobile:</label>
         <input
           type="text"
           name="mobile"
           value={employee.mobile}
           onChange={handleInputChange}
+          className={styles.input}
+          pattern="\d*"
+          required
         />
       </div>
 
-      <div className={styles["form-group"]}>
-        <label>Designation:</label>
+      <div className={styles.formGroup}>
+        <label className={styles.label}>Designation:</label>
         <select
           name="designation"
           value={employee.designation}
           onChange={handleInputChange}
+          className={styles.select}
+          required
         >
           {designations.map((d) => (
             <option key={d} value={d}>
@@ -107,8 +123,8 @@ export default function EditEmployee() {
         </select>
       </div>
 
-      <div className={styles["form-group"]}>
-        <label>Gender:</label>
+      <div className={styles.formGroup}>
+        <label className={styles.label}>Gender:</label>
         <label>
           <input
             type="radio"
@@ -116,6 +132,8 @@ export default function EditEmployee() {
             value="Male"
             checked={employee.gender === "Male"}
             onChange={handleInputChange}
+            className={styles.radio}
+            required
           />
           Male
         </label>
@@ -126,45 +144,64 @@ export default function EditEmployee() {
             value="Female"
             checked={employee.gender === "Female"}
             onChange={handleInputChange}
+            className={styles.radio}
+            required
           />
           Female
         </label>
       </div>
 
-      <div className={styles["form-group"]}>
-        <label>Courses:</label>
+      <div className={styles.formGroup}>
+        <label className={styles.label}>Courses:</label>
         {coursesList.map((course) => (
-          <label key={course}>
+          <label key={course} className={styles.checkboxLabel}>
             <input
               type="checkbox"
               name="course"
               value={course}
               checked={(employee.course || []).includes(course)}
               onChange={handleInputChange}
+              className={styles.checkbox}
             />
             {course}
           </label>
         ))}
       </div>
 
-      <div className={styles["form-group"]}>
-        <label>Current Image:</label>
+      <div className={styles.formGroup}>
+        <label className={styles.label}>Current Image:</label>
         {employee.image && (
           <img
-            src={`${import.meta.env.VITE_BASE_URL}/${employee.image}`}
+            src={`${import.meta.env.VITE_BASE_URL}${employee.image}`}
             alt="Employee"
             className={styles.employeeImage}
           />
         )}
       </div>
 
-      <div className={styles["form-group"]}>
-        <label>Image Upload:</label>
-        <input type="file" name="image" onChange={handleImageChange} />
+      <div className={styles.formGroup}>
+        <label className={styles.label}>New Image Upload:</label>
+        <input
+          type="file"
+          name="image"
+          onChange={handleImageChange}
+          className={styles.input}
+        />
       </div>
 
-      <button type="submit" className={styles.button}>
-        Update
+      <div className={styles.formGroup}>
+        <label className={styles.label}>New Image Preview:</label>
+        {newImage && (
+          <img
+            src={URL.createObjectURL(newImage)}
+            alt="New Preview"
+            className={styles.employeeImage}
+          />
+        )}
+      </div>
+
+      <button type="submit" className={styles.button} disabled={loading}>
+        {loading ? "Updating..." : "Update"}
       </button>
     </form>
   );

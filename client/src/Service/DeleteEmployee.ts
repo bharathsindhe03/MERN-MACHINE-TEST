@@ -1,17 +1,6 @@
 import axios from "axios";
 import { Dispatch, SetStateAction } from "react";
-
-interface Employee {
-  eid: string;
-  image?: string;
-  name: string;
-  email: string;
-  mobile: string;
-  designation: string;
-  gender: string;
-  course: string[];
-  time: string;
-}
+import type { Employee } from "../Interface/Employee";
 
 export const handleDeleteEmployee = async (
   id: string,
@@ -24,7 +13,7 @@ export const handleDeleteEmployee = async (
 
   try {
     const response = await axios.delete(
-      `${import.meta.env.VITE_BASE_URL}employees/${id}`
+      `${import.meta.env.VITE_BASE_URL}/employees/${id}`
     );
 
     if (response.status === 200) {

@@ -4,7 +4,7 @@ const handleEditEmployee = async (
   e: React.FormEvent,
   employee: any,
   id: string,
-  newImage: string | null,
+  newImage: File | null,
   setError: React.Dispatch<React.SetStateAction<string | null>>
 ) => {
   e.preventDefault();
@@ -20,19 +20,24 @@ const handleEditEmployee = async (
 
   try {
     const response = await axios.put(
-      `${import.meta.env.VITE_BASE_URL}employees/${id}`,
-      formData,
-      { headers: { "Content-Type": "multipart/form-data" } }
+      `${import.meta.env.VITE_BASE_URL}/employees/${id}`,
+      formData
     );
 
     if (response.status === 200) {
+      console.log("Employee updated:", response.data);
       alert("Employee updated successfully!");
     } else {
       throw new Error("Failed to update employee");
     }
   } catch (err: any) {
-    console.error("Error updating employee:", err.message);
-    setError(err.message);
+    if (axios.isAxiosError(err)) {
+      console.error("Axios error:", err.response?.data);
+      setError(err.response?.data?.message || "An error occurred");
+    } else {
+      console.error("Unknown error:", err);
+      setError("An unexpected error occurred");
+    }
   }
 };
 

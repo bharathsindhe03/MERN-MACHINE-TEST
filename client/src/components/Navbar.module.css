@@ -20,7 +20,7 @@
   text-decoration: underline;
 }
 
-.employee-name {
+.employeeName {
   font-size: 16px;
   font-weight: bold;
   margin-right: 20px; /* Align with the layout */
@@ -50,7 +50,7 @@
   }
 
   .link,
-  .employee-name,
+  .employeeName,
   .button {
     margin: 5px 0; /* Add spacing between elements */
   }

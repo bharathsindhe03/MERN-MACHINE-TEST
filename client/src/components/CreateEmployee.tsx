@@ -2,16 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./CreateEmployee.module.css";
 import { handleCreate } from "../Service/Create";
+import type { FormData } from "../Interface/FormData";
 
-interface FormData {
-  name: string;
-  email: string;
-  mobile: string;
-  designation: string;
-  gender: string;
-  course: string[];
-  image: File | null;
-}
 export default function CreateEmployee() {
   const [formData, setFormData] = useState<FormData>({
     name: "",
@@ -53,8 +45,8 @@ export default function CreateEmployee() {
   };
 
   const handleCreateEmployee = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault(); 
-    await handleCreate(formData, setFormData, navigate); 
+    e.preventDefault();
+    await handleCreate(formData, setFormData, navigate);
   };
 
   return (

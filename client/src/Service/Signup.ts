@@ -17,7 +17,7 @@ export const handleSignup = async ({
     console.log("Signup in progress...");
 
     const response = await axios.post(
-      `${import.meta.env.VITE_BASE_URL}auth/signup`,
+      `${import.meta.env.VITE_BASE_URL}/auth/signup`,
       {
         name,
         email,
@@ -27,7 +27,7 @@ export const handleSignup = async ({
 
     alert(response.data.message);
     console.log("Signup completed");
-    navigate("/login");
+    navigate("/");
   } catch (error: any) {
     if (error.response?.data?.error) {
       alert(error.response.data.error);

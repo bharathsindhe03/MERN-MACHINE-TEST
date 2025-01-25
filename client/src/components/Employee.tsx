@@ -5,17 +5,7 @@ import { fetchAllEmployees } from "../Service/FetchAllEmployee";
 import { handleDeleteEmployee } from "../Service/DeleteEmployee";
 import Navbar from "./Navbar";
 
-interface Employee {
-  eid: string;
-  image?: string;
-  name: string;
-  email: string;
-  mobile: string;
-  designation: string;
-  gender: string;
-  course: string[];
-  time: string;
-}
+import type { Employee } from "../Interface/Employee";
 
 export default function Employee() {
   const [employees, setEmployees] = useState<Employee[]>([]);

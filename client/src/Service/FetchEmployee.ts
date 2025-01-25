@@ -12,7 +12,7 @@ export const fetchEmployee = async (
   try {
     setLoading(true);
     const response = await axios.get(
-      `${import.meta.env.VITE_BASE_URL}employees/${id}`
+      `${import.meta.env.VITE_BASE_URL}/employees/${id}`
     );
     setEmployee(response.data);
   } catch (err: any) {
