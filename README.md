@@ -61,16 +61,14 @@ Ensure you have the following installed:
    ```bash
    cd server
    npm install
-   cp .env.example .env
-   # Configure environment variables in the .env file
-   npm nodemon server.js
+   npx nodemon server.js
    ```  
 
 3. **Set up the frontend**:  
    ```bash
    cd ../client
    npm install
-   npm start
+   npm run dev
    ```  
 
 4. Open your browser and navigate to:  
