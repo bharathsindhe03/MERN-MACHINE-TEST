@@ -1,11 +1,11 @@
 import { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import styles from "./EditEmployee.module.css";
 import { fetchEmployee } from "../../Service/FetchEmployee";
 import type { Employee } from "../../Interface/Employee";
 import handleEditEmployee from "../../Service/EditEmployee";
 import toast from "react-hot-toast";
 import Animation from "../../components/Animation/Animation";
+
 export default function EditEmployee() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -27,17 +27,14 @@ export default function EditEmployee() {
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value, type, checked } = e.target as HTMLInputElement;
-
     setEmployee((prev) => {
       if (!prev) return prev;
       if (type === "checkbox" && name === "course") {
         const updatedCourses = checked
           ? [...prev.course, value]
           : prev.course.filter((c) => c !== value);
-
         return { ...prev, course: updatedCourses };
       }
-
       return { ...prev, [name]: value };
     });
   };
@@ -51,158 +48,155 @@ export default function EditEmployee() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (!employee || !id) return;
-
     try {
       await handleEditEmployee(e, employee, id, newImage, setError);
-      toast.success("Employee updated successfully!");
       navigate("/employees");
-    } catch (err) {
-      toast.error("Failed to update employee.");
+    } catch (err: any) {
+      toast.error(err.message);
     }
   };
 
-  if (loading) {
-    return <Animation />;
-  }
-  if (error) return <p className={styles.error}>{error}</p>;
-  if (!employee) return <p>No employee data found!</p>;
+  if (loading) return <Animation />;
+  if (error) return <p className="text-red-500 text-center">{error}</p>;
+  if (!employee) return <p className="text-center">No employee data found!</p>;
 
   return (
-    <form onSubmit={handleSubmit} className={styles.form}>
-      <div className={styles.formGroup}>
-        <label className={styles.label}>Name:</label>
-        <input
-          type="text"
-          name="name"
-          value={employee.name}
-          onChange={handleInputChange}
-          className={styles.input}
-          required
-        />
-      </div>
-
-      <div className={styles.formGroup}>
-        <label className={styles.label}>Email:</label>
-        <input
-          type="email"
-          name="email"
-          value={employee.email}
-          onChange={handleInputChange}
-          className={styles.input}
-          required
-        />
-      </div>
-
-      <div className={styles.formGroup}>
-        <label className={styles.label}>Mobile:</label>
-        <input
-          type="text"
-          name="mobile"
-          value={employee.mobile}
-          onChange={handleInputChange}
-          className={styles.input}
-          pattern="\d*"
-          required
-        />
-      </div>
-
-      <div className={styles.formGroup}>
-        <label className={styles.label}>Designation:</label>
-        <select
-          name="designation"
-          value={employee.designation}
-          onChange={handleInputChange}
-          className={styles.select}
-          required
-        >
-          {designations.map((d) => (
-            <option key={d} value={d}>
-              {d}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      <div className={styles.formGroup}>
-        <label className={styles.label}>Gender:</label>
-        <label>
+    <div className="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md mt-10">
+      <h2 className="text-2xl font-bold mb-4 text-center">Edit Employee</h2>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div>
+          <label className="block font-semibold">Name:</label>
           <input
-            type="radio"
-            name="gender"
-            value="Male"
-            checked={employee.gender === "Male"}
+            type="text"
+            name="name"
+            value={employee.name}
             onChange={handleInputChange}
-            className={styles.radio}
+            className="w-full p-2 border rounded-md"
             required
           />
-          Male
-        </label>
-        <label>
+        </div>
+        <div>
+          <label className="block font-semibold">Email:</label>
           <input
-            type="radio"
-            name="gender"
-            value="Female"
-            checked={employee.gender === "Female"}
+            type="email"
+            name="email"
+            value={employee.email}
             onChange={handleInputChange}
-            className={styles.radio}
+            className="w-full p-2 border rounded-md"
             required
           />
-          Female
-        </label>
-      </div>
-
-      <div className={styles.formGroup}>
-        <label className={styles.label}>Courses:</label>
-        {coursesList.map((course) => (
-          <label key={course} className={styles.checkboxLabel}>
-            <input
-              type="checkbox"
-              name="course"
-              value={course}
-              checked={(employee.course || []).includes(course)}
-              onChange={handleInputChange}
-              className={styles.checkbox}
+        </div>
+        <div>
+          <label className="block font-semibold">Mobile:</label>
+          <input
+            type="number"
+            name="mobile"
+            value={employee.mobile}
+            onChange={handleInputChange}
+            className="w-full p-2 border rounded-md"
+            required
+          />
+        </div>
+        <div>
+          <label className="block font-semibold">Designation:</label>
+          <select
+            name="designation"
+            value={employee.designation}
+            onChange={handleInputChange}
+            className="w-full p-2 border rounded-md"
+            required
+          >
+            {designations.map((d) => (
+              <option key={d} value={d}>
+                {d}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <label className="block font-semibold">Gender:</label>
+          <div className="flex space-x-4">
+            <label className="flex items-center">
+              <input
+                type="radio"
+                name="gender"
+                value="Male"
+                checked={employee.gender === "Male"}
+                onChange={handleInputChange}
+                className="mr-2"
+                required
+              />
+              Male
+            </label>
+            <label className="flex items-center">
+              <input
+                type="radio"
+                name="gender"
+                value="Female"
+                checked={employee.gender === "Female"}
+                onChange={handleInputChange}
+                className="mr-2"
+                required
+              />
+              Female
+            </label>
+          </div>
+        </div>
+        <div>
+          <label className="block font-semibold">Courses:</label>
+          <div className="flex flex-wrap gap-4">
+            {coursesList.map((course) => (
+              <label key={course} className="flex items-center">
+                <input
+                  type="checkbox"
+                  name="course"
+                  value={course}
+                  checked={(employee.course || []).includes(course)}
+                  onChange={handleInputChange}
+                  className="mr-2"
+                />
+                {course}
+              </label>
+            ))}
+          </div>
+        </div>
+        <div>
+          <label className="block font-semibold">Current Image:</label>
+          {employee.image && (
+            <img
+              src={`${import.meta.env.VITE_BASE_URL}${employee.image}`}
+              alt="Employee"
+              className="w-24 h-24 rounded-full mt-2"
             />
-            {course}
-          </label>
-        ))}
-      </div>
-
-      <div className={styles.formGroup}>
-        <label className={styles.label}>Current Image:</label>
-        {employee.image && (
-          <img
-            src={`${import.meta.env.VITE_BASE_URL}${employee.image}`}
-            alt="Employee"
-            className={styles.employeeImage}
+          )}
+        </div>
+        <div>
+          <label className="block font-semibold">New Image Upload:</label>
+          <input
+            type="file"
+            name="image"
+            onChange={handleImageChange}
+            className="w-full p-2 border rounded-md"
           />
-        )}
-      </div>
-
-      <div className={styles.formGroup}>
-        <label className={styles.label}>New Image Upload:</label>
-        <input
-          type="file"
-          name="image"
-          onChange={handleImageChange}
-          className={styles.input}
-        />
-      </div>
-
-      <div className={styles.formGroup}>
-        <label className={styles.label}>New Image Preview:</label>
-        {newImage && (
-          <img
-            src={URL.createObjectURL(newImage)}
-            alt="New Preview"
-            className={styles.employeeImage}
-          />
-        )}
-      </div>
-
-      <button type="submit" className={styles.button} disabled={loading}>
-        {loading ? "Updating..." : "Update"}
-      </button>
-    </form>
+        </div>
+        <div>
+          <label className="block font-semibold">New Image Preview:</label>
+          {newImage && (
+            <img
+              src={URL.createObjectURL(newImage)}
+              alt="New Preview"
+              className="w-24 h-24 rounded-full mt-2"
+            />
+          )}
+        </div>
+        <button
+          type="submit"
+          className="w-full bg-blue-500 text-white py-2 rounded-md font-bold hover:bg-blue-600 transition"
+          disabled={loading}
+        >
+          {loading ? "Updating..." : "Update"}
+        </button>
+      </form>
+    </div>
   );
 }

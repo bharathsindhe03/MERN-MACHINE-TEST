@@ -26,18 +26,15 @@ const handleEditEmployee = async (
     );
 
     if (response.status === 200) {
-      console.log("Employee updated:", response.data);
-      toast.success("Employee updated successfully!");
       
+      toast.success(response.data.message);
     } else {
-      throw new Error("Failed to update employee");
+      toast.error(response.data.message);
     }
   } catch (err: any) {
     if (axios.isAxiosError(err)) {
-      console.error("Axios error:", err.response?.data);
       setError(err.response?.data?.message || "An error occurred");
     } else {
-      console.error("Unknown error:", err);
       setError("An unexpected error occurred");
     }
   }

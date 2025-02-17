@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const EmployeeSchema = new mongoose.Schema({
   eid: { type: Number, unique: true, required: true },
@@ -12,4 +12,4 @@ const EmployeeSchema = new mongoose.Schema({
   time: { type: Date, default: Date.now },
 });
 
-module.exports = mongoose.model('Employee', EmployeeSchema);
+module.exports = mongoose.model("Employee", EmployeeSchema);

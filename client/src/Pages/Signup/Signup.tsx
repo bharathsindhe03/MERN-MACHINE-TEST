@@ -1,5 +1,4 @@
 import { useState } from "react";
-import style from "./Signup.module.css";
 import { handleSignup } from "../../Service/Signup";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -15,43 +14,58 @@ export default function Signup() {
   };
 
   return (
-    <div className={style.signup_container}>
-      <form onSubmit={onSubmit} className={style.signup_form}>
-        <h2>Signup</h2>
+    <div className="flex justify-center items-center h-screen bg-gray-100">
+      <form
+        onSubmit={onSubmit}
+        className="bg-white p-6 rounded-lg shadow-lg w-80"
+      >
+        <h2 className="text-center mb-6 text-xl font-semibold text-gray-800">
+          Signup
+        </h2>
 
+        {/* Name Input */}
         <input
           type="text"
           placeholder="Name"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className={style.input_field}
+          className="w-full p-3 mb-4 border border-gray-300 rounded-md text-lg"
           required
         />
 
+        {/* Email Input */}
         <input
           type="email"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className={style.input_field}
+          className="w-full p-3 mb-4 border border-gray-300 rounded-md text-lg"
           required
         />
 
+        {/* Password Input */}
         <input
           type="password"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className={style.input_field}
+          className="w-full p-3 mb-4 border border-gray-300 rounded-md text-lg"
           required
         />
 
-        <button type="submit" className={style.signup_button}>
+        {/* Submit Button */}
+        <button
+          type="submit"
+          className="w-full py-3 bg-blue-500 text-white rounded-md text-lg hover:bg-blue-600"
+        >
           Signup
         </button>
-        <Link to="/" className={style.link}>
-          Already have an account? Login here
-        </Link>
+
+        <div className="mt-4 text-center">
+          <Link to="/" className="text-blue-500 hover:text-blue-700">
+            Already have an account? Login here
+          </Link>
+        </div>
       </form>
     </div>
   );

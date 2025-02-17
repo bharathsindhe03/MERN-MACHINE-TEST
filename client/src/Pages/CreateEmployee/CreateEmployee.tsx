@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import styles from "./CreateEmployee.module.css";
 import { handleCreate } from "../../Service/Create";
 import type { FormData } from "../../Interface/FormData";
 
@@ -50,46 +49,50 @@ export default function CreateEmployee() {
   };
 
   return (
-    <div className={styles.container}>
-      <h2>Create Employee</h2>
-      <form onSubmit={handleCreateEmployee} className={styles.form}>
-        <div className={styles.formGroup}>
-          <label>Name:</label>
+    <div className="max-w-3xl mx-auto p-6 bg-gray-100 rounded-lg shadow-md">
+      <h2 className="text-2xl font-bold text-center mb-4">Create Employee</h2>
+      <form onSubmit={handleCreateEmployee} className="space-y-4">
+        <div>
+          <label className="block font-semibold">Name:</label>
           <input
             type="text"
             name="name"
             value={formData.name}
             onChange={handleChange}
             required
+            className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
-        <div className={styles.formGroup}>
-          <label>Email:</label>
+        <div>
+          <label className="block font-semibold">Email:</label>
           <input
             type="email"
             name="email"
             value={formData.email}
             onChange={handleChange}
             required
+            className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
-        <div className={styles.formGroup}>
-          <label>Mobile:</label>
+        <div>
+          <label className="block font-semibold">Mobile:</label>
           <input
             type="text"
             name="mobile"
             value={formData.mobile}
             onChange={handleChange}
             required
+            className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
-        <div className={styles.formGroup}>
-          <label>Designation:</label>
+        <div>
+          <label className="block font-semibold">Designation:</label>
           <select
             name="designation"
             value={formData.designation}
             onChange={handleChange}
             required
+            className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             <option value="">Select Designation</option>
             <option value="HR">HR</option>
@@ -97,53 +100,66 @@ export default function CreateEmployee() {
             <option value="Sales">Sales</option>
           </select>
         </div>
-        <div className={styles.formGroup}>
-          <label>Gender:</label>
-          <label>
-            <input
-              type="radio"
-              name="gender"
-              value="Male"
-              checked={formData.gender === "Male"}
-              onChange={handleChange}
-            />
-            Male
-          </label>
-          <label>
-            <input
-              type="radio"
-              name="gender"
-              value="Female"
-              checked={formData.gender === "Female"}
-              onChange={handleChange}
-            />
-            Female
-          </label>
-        </div>
-        <div className={styles.formGroup}>
-          <label>Courses:</label>
-          {["MCA", "BCA", "BSC"].map((course) => (
-            <label key={course}>
+        <div>
+          <label className="block font-semibold">Gender:</label>
+          <div className="flex gap-4">
+            <label>
               <input
-                type="checkbox"
-                value={course}
-                checked={formData.course.includes(course)}
-                onChange={handleCheckboxChange}
+                type="radio"
+                name="gender"
+                value="Male"
+                checked={formData.gender === "Male"}
+                onChange={handleChange}
+                className="mr-2"
               />
-              {course}
+              Male
             </label>
-          ))}
+            <label>
+              <input
+                type="radio"
+                name="gender"
+                value="Female"
+                checked={formData.gender === "Female"}
+                onChange={handleChange}
+                className="mr-2"
+              />
+              Female
+            </label>
+          </div>
         </div>
-        <div className={styles.formGroup}>
-          <label>Image:</label>
+        <div>
+          <label className="block font-semibold">Courses:</label>
+          <div className="flex flex-wrap gap-4">
+            {["MCA", "BCA", "BSC"].map((course) => (
+              <label key={course} className="flex items-center space-x-2">
+                <input
+                  type="checkbox"
+                  value={course}
+                  checked={formData.course.includes(course)}
+                  onChange={handleCheckboxChange}
+                  className="mr-2"
+                />
+                {course}
+              </label>
+            ))}
+          </div>
+        </div>
+        <div>
+          <label className="block font-semibold">Image:</label>
           <input
             type="file"
             accept="image/png, image/jpeg"
             onChange={handleFileChange}
             required
+            className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
-        <button type="submit">Submit</button>
+        <button
+          type="submit"
+          className="w-full p-2 bg-blue-600 text-white font-bold rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          Submit
+        </button>
       </form>
     </div>
   );
